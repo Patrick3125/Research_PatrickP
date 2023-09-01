@@ -1,0 +1,16 @@
+This example project demonstrates:
+1. how to run spparks with an input script for dissociative adsorption
+2. how to create an animated gif from jpg snapshots of the system
+
+To run this example:
+1. copy the executable "spk_nonmui" to the current directory:
+   --> cp ~/GIT/FHDeX/exec/compressible_stag_mui/SPPARKS_MUI/spk_nonmui .
+2. execuate the shell script:
+   --> ./run_single.sh
+
+This project contains the following files:
+    README              this file
+    run_single.sh       shell script
+    create_site_file.py creates sites data file "data.strips"
+    in.diss_ads         spparks input script
+    clean.sh            deletes all data and outcome files
