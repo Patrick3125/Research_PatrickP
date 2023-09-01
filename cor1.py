@@ -13,7 +13,6 @@ maxtau = 250
 size = 90000
 errbar_interval = 3  # Show error bars every point
 
-# Initialize variables to hold all correlation values and average correlation values
 all_corrs = []
 average_corrs = np.zeros(maxtau - 1)
 variances = np.zeros(maxtau - 1)
@@ -58,7 +57,6 @@ for gf in range(1, num_files + 1):
     all_corrs.append(corrs)
     average_corrs += np.array(corrs)
 
-# Calculate the average correlation values
 average_corrs /= num_files
 
 # Calculate the variance for each point
@@ -67,7 +65,6 @@ for tau in range(maxtau - 1):
     variance = sum((np.array([corrs[tau] for corrs in all_corrs]) - mean_value)**2) / (num_files - 1)
     variances[tau] = variance
 
-# Plotting
 fig, ax = plt.subplots()
 
 #ax.errorbar(range(1, maxtau)[::errbar_interval],
@@ -77,7 +74,7 @@ fig, ax = plt.subplots()
 #            fmt='', ecolor='green')
 
 
-# Plot just the error bars at intervals, without the line, and in green color
+# Plot just the error bars at interval
 ax.errorbar(range(1, maxtau)[::errbar_interval], 
             average_corrs[::errbar_interval],
             #yerr=2*np.sqrt(variances[::errbar_interval]/(num_files-1)),
