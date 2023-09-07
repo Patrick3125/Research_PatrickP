@@ -21,11 +21,11 @@ fi
 python create_site_file.py $xhi $yhi
 
 
-for seed in {1..32}
+for seed in {0..31}
 do
-	for seed2 in {1..16} 
+	for seed2 in {0..15} 
 	do
-	chseed=$(echo "$seed*100+$seed2" | bc)
+	chseed=$(echo "$seed*16+$seed2" | bc)
 	mpirun -np 1 $spkexe -in $spkscr -var seed $chseed -var xhi $xhi -var yhi $yhi -var rd $rd -var ra $ra -log log${chseed}.spparks &
 	done
 	wait

@@ -18,8 +18,7 @@ average_corrs = np.zeros(maxtau - 1)
 variances = np.zeros(maxtau - 1)
 
 # Loop through all log files
-for gf in range(1, num_files + 1):
-    i = int((gf-1)/16+1)*100+(gf-1)%16+1
+for i in range(0, num_files-1):
     #print(gf)
     x_values = []
     y_values = []
