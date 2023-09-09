@@ -4,8 +4,8 @@ import sys
 import os
 
 # Automatically detect the number of log files
-#log_folder = "../01_run_diss_ads/"
-log_folder = "../"
+log_folder = "../01_run_diss_ads/"
+#log_folder = "../"
 log_files = [f for f in os.listdir(log_folder) if f.startswith('log') and f.endswith('.spparks')]
 num_files = len(log_files)
 print(num_files)
