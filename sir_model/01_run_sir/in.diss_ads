@@ -58,7 +58,7 @@ diag_style 	surfchemtest stats yes list vac spec1 spec2 spec3
 #dump_modify     3 pad 5 scolor 0 gray scolor 1 blue scolor 2 red scolor 3 dimgray
 
 
-variable i loop 1000
+variable i loop ${run_time}
 label loop
 
 run ${Trun} pre no post no
