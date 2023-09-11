@@ -69,6 +69,7 @@ for i in range(1, num_files+1):
 
 average_corrs /= num_files
 
+
 # Calculate the variance for each point
 for tau in range(maxtau - 1):
     mean_value = average_corrs[tau]
