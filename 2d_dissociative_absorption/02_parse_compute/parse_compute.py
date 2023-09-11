@@ -55,7 +55,6 @@ for i in range(1, num_files+1):
     corrs = []
     new_values = np.array(y_values)
     new_values -= theta
-    #print(new_values)
 
     for tau in range(1, maxtau):
         new_x = new_values[:-tau]
