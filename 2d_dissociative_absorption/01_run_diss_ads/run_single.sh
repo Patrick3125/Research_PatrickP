@@ -25,7 +25,7 @@ for seed in {0..31}
 do
 	for seed2 in {0..15} 
 	do
-	chseed=$(echo "$seed*16+$seed2" | bc)
+	chseed=$(echo "$seed*16+$seed2+1" | bc)
 	mpirun -np 1 $spkexe -in $spkscr -var seed $chseed -var xhi $xhi -var yhi $yhi -var rd $rd -var ra $ra -log log${chseed}.spparks &
 	done
 	wait
