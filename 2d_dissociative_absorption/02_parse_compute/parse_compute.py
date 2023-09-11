@@ -66,6 +66,7 @@ for i in range(1, num_files+1):
     all_corrs.append(corrs)
     average_corrs += np.array(corrs)
 
+
 average_corrs /= num_files
 # Calculate the variance for each point
 for tau in range(maxtau - 1):
