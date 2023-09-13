@@ -3,7 +3,7 @@ import numpy as np
 import os
 
 # Path where the files are stored
-path = "../02_parse_compute/"
+path = "../"
 
 # Automatically detect the number of correlation data files
 correlation_files = [f for f in os.listdir(path) if f.startswith('correlation_data_log')]

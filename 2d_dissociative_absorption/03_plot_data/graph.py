@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 x_values = []
 y_values = []
 
-with open("log.spparks", "r") as f:
+with open("../01_run_diss_ads/log1.spparks", "r") as f:
     lines = f.readlines()[81:]
     
     start_from = True

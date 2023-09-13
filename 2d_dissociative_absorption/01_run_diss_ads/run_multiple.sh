@@ -3,12 +3,13 @@
 spkexe=./spk_nonmui
 spkscr=in.diss_ads
 outgif=diss_ads.mp4
-seed=1
+#seed=1
 xhi=300
 yhi=300
 rd=0.2
 ra=0.3
-runtime=1000
+total_runs=119 #total number of similations you want to run
+runtime=10000
 #../clean.sh
 # spparks executable
 if [ ! -f $spkexe ]
@@ -21,8 +22,17 @@ fi
 
 python create_site_file.py $xhi $yhi
 
+#runs the simulation in group of 16. 
+for (( i=0; i<$total_runs; i+=16 )); do
+        upper_limit=$(( $i + 16 < $total_runs ? $i + 16 : $total_runs ))
 
-mpirun -np 1 $spkexe -in $spkscr -var seed $seed -var xhi $xhi -var yhi $yhi -var rd $rd -var ra $ra -var runtime $runtime -log log1.spparks
+        for seed in $(seq $((i+1)) $upper_limit); do
+          chseed=$(( $i + $seed ))
+          mpirun -np 1 $spkexe -in $spkscr -var seed $chseed -var xhi $xhi -var yhi $yhi -var rd $rd -var ra $ra -var runtime $runtime -log log${seed}.spparks &
+        done
+        wait
+      done
+
 
 echo "rd=0.2 ra=0.3"
 k=$(echo "$rd / $ra" | bc -l)

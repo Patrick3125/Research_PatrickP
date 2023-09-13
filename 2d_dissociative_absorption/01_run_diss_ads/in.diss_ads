@@ -45,7 +45,7 @@ diag_style 	surfchemtest stats yes list vac spec1
 #dump            3 image ${Timage} dump.*.jpg i2 site shape cube crange 0 2 drange 0 2 shape cube sdiam 0.8 view 0 0 center s 0.45 0.45 0.5 box no 0 zoom 2.0 size 400 400
 #dump_modify     3 pad 5 scolor 0 gray scolor 1 red scolor 2 saddlebrown
 
-variable i loop 10000
+variable i loop ${runtime}
 label loop
 
 run ${Trun} pre no post no

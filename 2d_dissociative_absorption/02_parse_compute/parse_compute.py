@@ -8,11 +8,12 @@ log_folder = "../01_run_diss_ads/"
 #log_folder = "../"
 log_files = [f for f in os.listdir(log_folder) if f.startswith('log') and f.endswith('.spparks')]
 num_files = len(log_files)
-print(num_files)
-num_files = 60
-maxtau = 250
+maxtau = min(int(float(sys.argv[3])*0.9), 250)  #maxtau will be set to 90% of runtime, 250 maximum
 #size will be read from file.
 size = 1
+
+print(maxtau, num_files)
+
 
 all_corrs = []
 average_corrs = np.zeros(maxtau - 1)
@@ -59,10 +60,11 @@ for i in range(1, num_files+1):
     for tau in range(1, maxtau):
         new_x = new_values[:-tau]
         new_y = new_values[tau:]
-        corrs.append(np.corrcoef(new_x, new_y)[0, 1])
+        #corrs.append(np.corrcoef(new_x, new_y)[0, 1])
+        corrs.append(np.correlate(new_x, new_y, mode='valid')[0])
 
     individual_data_to_save = np.column_stack((range(1, maxtau), corrs))
-    np.savetxt(f"correlation_data_log{i}.txt", individual_data_to_save, fmt="%d %f", header="i correlation")
+    np.savetxt(f"../correlation_data_log{i}.txt", individual_data_to_save, fmt="%d %f", header="i correlation")
     all_corrs.append(corrs)
     average_corrs += np.array(corrs)
 
@@ -73,10 +75,13 @@ average_corrs /= num_files
 # Calculate the variance for each point
 for tau in range(maxtau - 1):
     mean_value = average_corrs[tau]
-    variance = sum((np.array([corrs[tau] for corrs in all_corrs]) - mean_value)**2) / (num_files - 1)
-    variances[tau] = variance
+    #only calculate variance when num_files is more than one
+    if (num_files > 1):
+        variance = sum((np.array([corrs[tau] for corrs in all_corrs]) - mean_value)**2) / (num_files - 1)
+        variances[tau] = variance
+    else:
+        variances[tau] = 0
 
 # Save the average_corrs and variances to a file
 data_to_save = np.column_stack((range(1, maxtau), average_corrs, variances))
-np.savetxt("correlation_data.txt", data_to_save, fmt="%d %f %f", header="i average_correlation variance")
-
+np.savetxt("../correlation_data.txt", data_to_save, fmt="%d %f %f", header="i average_correlation variance")
