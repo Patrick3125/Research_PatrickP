@@ -5,12 +5,15 @@ To run this example:
 1. copy the executable "spk_nonmui" to the current directory:
    --> cd 01_run_diss_ads
    --> cp ~/GIT/FHDeX/exec/compressible_stag_mui/SPPARKS_MUI/spk_nonmui .
-2. execuate the shell script:
+2. execute the shell script:
    --> ./run_single.sh
+3. or
+   --> ./run_multiple.sh
 
 This project contains the following files:
     README              this file
-    run_multiple.sh       shell script
+    run_multiple.sh     run simulation multiple times
+    run_single.sh       run simulation single time
     create_site_file.py creates sites data file "data.strips"
     in.diss_ads         spparks input script
     clean.sh            deletes all data and outcome files
