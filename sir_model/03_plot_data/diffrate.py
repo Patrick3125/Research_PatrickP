@@ -1,49 +1,36 @@
 import matplotlib.pyplot as plt
 
 # Open the file in read mode
-with open("diffrate.txt", "r") as file:
+with open("../ode_params.txt", "r") as file:
     lines = file.readlines()
 
+lines = lines[1::2]
+print(lines)
 # Initializing lists to store x and y values
-x_values = []
-y_values1 = []
+x_values = []  # This will store Rt values
+y_values1 = []  # This will store k values
 y_values2 = []
+infection_rate= 0
+# Extracting Rt and k values from the file
+for line in lines:
+    values = line.strip().split()
+    x_values.append(float(values[3]))  
+    y_values1.append(float(values[4]))  
+    y_values2.append(float(values[6]))  
+    infection_rate = float(values[0]) 
 
-i = 0
-while i < len(lines):
-    # This line is a x-value
-    x = float(lines[i].strip())
-    i += 1
-
-    y1_values = []
-    y2_values = []
-    # Continue reading the following lines until we reach another x-value (or the end of the file)
-    while i < len(lines) and ' ' in lines[i]:
-        line = lines[i].strip().split()
-        y1 = float(line[0])
-        y2 = float(line[2])  # Changed to second value in line
-        y1_values.append(y1)
-        y2_values.append(y2)
-
-        # Plot individual data points in a lighter color
-        # Commented out as per request
-        plt.scatter(x, y1, color='lightblue', alpha=0.3, s=10)
-        plt.scatter(x, y2, color='salmon', alpha=0.3, s=10)
-        i += 1
-
-    # Append the averages to the respective lists
-    x_values.append(x)
-    y_values1.append(sum(y1_values) / len(y1_values))  # Average over all values
-    y_values2.append(sum(y2_values) / len(y2_values))  # Average over all values
 
 # Creating the plots
-plt.plot(x_values, y_values1, label="Mean Squared", color='blue', linewidth=2)
-plt.plot(x_values, y_values2, label="Using S_inf", color='red', linewidth=2)  # Changed label to S_inf
+plt.plot(x_values, y_values1, label="Method 1 (Least Squares)", color='blue', linewidth=2)
+plt.plot(x_values, y_values2, label="Method 2 (Contact number)", color='red', linewidth=2)  # Changed label to S_inf
+
+# Adding a dashed black line at y=0.6 and label it "Expected b value"
+plt.axhline(y=infection_rate, color='black', linestyle='--', label=r"$\bf{%s}$" % u"\u03B2")
 
 # Adding labels and title with larger font sizes
-plt.xlabel("Diffusion Rate", fontsize=16)
-plt.ylabel("Optimal B Value", fontsize=16)
-plt.title("Optimal B Value with Different Diffusion Rates", fontsize=20)
+plt.xlabel(r"$\bf{%s}$" % u"\u03B3", fontsize=16)
+plt.ylabel("Optimal "+r"$\bf{%s}$" % "b" +" Value", fontsize=16)
+plt.title("Relationship between " + r"$\bf{%s}$" % u"\u03B3" + " and optimal "+r"$\bf{%s}$" % "b" +" value using \ntwo methods, when " + r"$\bf{%s}$" % u"\u03B2" + " = 0.6", fontsize=20)
 plt.legend(fontsize=14)
 
 # Increase tick label size
@@ -53,4 +40,5 @@ plt.yticks(fontsize=14)
 # Displaying the plot
 plt.tight_layout()
 plt.show()
+
 

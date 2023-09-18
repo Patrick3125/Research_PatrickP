@@ -47,7 +47,6 @@ event 	    2 siteA siteA spec2 vac ${diffrate} vac spec2
 event       2 siteA siteA spec1 vac ${diffrate} vac spec1
 event 	    2 siteA siteA spec3 vac ${diffrate} vac spec3
 
-variable    Trun equal 0.1
 variable    Tstat equal 0.1 
 variable	Timage equal 0.05 
 
@@ -58,7 +57,7 @@ diag_style 	surfchemtest stats yes list vac spec1 spec2 spec3
 #dump_modify     3 pad 5 scolor 0 gray scolor 1 blue scolor 2 red scolor 3 dimgray
 
 
-variable i loop ${run_time}
+variable i loop ${runtime}
 label loop
 
 run ${Trun} pre no post no
