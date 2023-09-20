@@ -2,56 +2,65 @@ import numpy as np
 import math
 import sys
 import os
+import json
+import re
 
-# Automatically detect the number of log files
-log_folder = "../01_run_diss_ads/"
-#log_folder = "../"
-log_files = [f for f in os.listdir(log_folder) if f.startswith('log') and f.endswith('.spparks')]
-num_files = len(log_files)
-maxtau = min(int(float(sys.argv[3])*0.9), 250)  #maxtau will be set to 90% of runtime, 250 maximum
-#size will be read from file.
-size = 1
+logdir = "../log"
 
-print(maxtau, num_files)
+#read input values
+with open(os.path.join(logdir, 'variables.txt')) as f:
+    var_data = json.load(f)
 
+total_sites = var_data["xhi"] * var_data["yhi"]
+rd2 = var_data["rd2"]
+ra2 = var_data["ra2"]
+Nruns = var_data["Nruns"]
+Nstep = var_data["Nstep"]
+deltat = var_data["deltat"]
+
+log_files = [f for f in os.listdir(logdir) if f.startswith('log') and f.endswith('.spparks')]
+
+print("Total of " + str(Nruns) + " log files detected.")
+
+maxtau = min(Nstep * 0.9, 250)  #maxtau will be set to 90% of runtime, 250 maximum
+theta = 1 / (1 + math.sqrt(rd2 / ra2))
 
 all_corrs = []
 average_corrs = np.zeros(maxtau - 1)
 variances = np.zeros(maxtau - 1)
 
 
+
+
 # Loop through all log files
-for i in range(1, num_files+1):
+for i in range(1, Nruns+1):
     x_values = []
     y_values = []
-    filename = os.path.join(log_folder, "log{}.spparks".format(i))
-    rd = float(sys.argv[1])
-    ra = float(sys.argv[2])
-    theta = 1 / (1 + math.sqrt(rd / ra))
+    filename = os.path.join(logdir, "log{}.spparks".format(i))
 
     with open(filename, "r") as f:
-        lines = f.readlines()[79:]
-
-        start_from = False
-        last_line_before_loop = None
+        lines = f.readlines()
+        
+        previous_line_is_data = False
+        save_previous_line = None
 
         for line in lines:
-            if "- nreaction = 0" in line or  "Naccept" in line:
-                start_from = True
-                continue
-            if start_from and line.split()[0] == "Loop":
-                start_from = False
-                if last_line_before_loop is not None:
-                    x_values.append(float(last_line_before_loop.split()[0]))
-                    y_values.append(float(last_line_before_loop.split()[6]) / size)
-                continue
-            if start_from:
-                last_line_before_loop = line
-                if float(line.split()[0]) == 0:
-                    x_values.append(float(line.split()[0]))
-                    size = float(line.split()[5])
-                    y_values.append(float(line.split()[6]) / size)
-
+        
+            # Used Regular expressions to find lines with only 7 numbers
+            real_data = re.match(r"\s*([\d.]+)\s+(\d+)\s+(\d+)\s+(\d+)\s+([\d.]+)\s+(\d+)\s+(\d+)", line)
+            
+            if real_data:
+                if previous_line_is_data:
+                    x_values.append(float(real_data.group(1)))
+                    y_values.append(float(real_data.group(7)) / total_sites)
+                    previous_line_is_data = False
+                else:
+                    previous_line_is_data = True
+                    save_previous_line = real_data
+            elif previous_line_is_data:
+                x_values.append(float(save_previous_line.group(1)))
+                y_values.append(float(save_previous_line.group(7)) / total_sites)
+                previous_line_is_data = False
 
     corrs = []
     new_values = np.array(y_values)
@@ -60,28 +69,27 @@ for i in range(1, num_files+1):
     for tau in range(1, maxtau):
         new_x = new_values[:-tau]
         new_y = new_values[tau:]
-        #corrs.append(np.corrcoef(new_x, new_y)[0, 1])
         corrs.append(np.correlate(new_x, new_y, mode='valid')[0])
 
     individual_data_to_save = np.column_stack((range(1, maxtau), corrs))
-    np.savetxt(f"../correlation_data_log{i}.txt", individual_data_to_save, fmt="%d %f", header="i correlation")
+    np.savetxt(os.path.join(logdir, "correlation{}.txt".format(i)), individual_data_to_save, fmt="%d %f", header="i correlation")
     all_corrs.append(corrs)
     average_corrs += np.array(corrs)
 
 
-average_corrs /= num_files
+average_corrs /= Nruns
 
 
 # Calculate the variance for each point
 for tau in range(maxtau - 1):
     mean_value = average_corrs[tau]
     #only calculate variance when num_files is more than one
-    if (num_files > 1):
-        variance = sum((np.array([corrs[tau] for corrs in all_corrs]) - mean_value)**2) / (num_files - 1)
+    if (Nruns > 1):
+        variance = sum((np.array([corrs[tau] for corrs in all_corrs]) - mean_value)**2) / (Nruns - 1)
         variances[tau] = variance
     else:
         variances[tau] = 0
 
 # Save the average_corrs and variances to a file
 data_to_save = np.column_stack((range(1, maxtau), average_corrs, variances))
-np.savetxt("../correlation_data.txt", data_to_save, fmt="%d %f %f", header="i average_correlation variance")
+np.savetxt(os.path.join(logdir, "correlation_average.txt"), data_to_save, fmt="%d %f %f", header="i average_correlation variance")
