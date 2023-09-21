@@ -26,6 +26,7 @@ for i in range(1, num_files + 1):
     except IOError:
         print("correlation{}.txt not found. Skipping...".format(i))
 
+
 # Plot the average correlations
 ax.plot(i_values, average_corrs, '-', color='blue', linewidth=2, label="Average Correlation")
 

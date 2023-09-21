@@ -7,7 +7,7 @@ import re
 
 logdir = "../log"
 
-#read input values
+#read input variables from json file
 with open(os.path.join(logdir, 'variables.txt')) as f:
     var_data = json.load(f)
 
@@ -18,17 +18,18 @@ Nruns = var_data["Nruns"]
 Nstep = var_data["Nstep"]
 deltat = var_data["deltat"]
 
-log_files = [f for f in os.listdir(logdir) if f.startswith('log') and f.endswith('.spparks')]
-
 print("Total of " + str(Nruns) + " log files detected.")
 
 maxtau = min(Nstep * 0.9, 250)  #maxtau will be set to 90% of runtime, 250 maximum
 theta = 1 / (1 + math.sqrt(rd2 / ra2))
 
+# initialize arrays
 all_corrs = []
 average_corrs = np.zeros(maxtau - 1)
 variances = np.zeros(maxtau - 1)
 
+#find log files
+log_files = [f for f in os.listdir(logdir) if f.startswith('log') and f.endswith('.spparks')]
 
 
 
@@ -71,6 +72,7 @@ for i in range(1, Nruns+1):
         new_y = new_values[tau:]
         corrs.append(np.correlate(new_x, new_y, mode='valid')[0])
 
+    #save individual conrrelations
     individual_data_to_save = np.column_stack((range(1, maxtau), corrs))
     np.savetxt(os.path.join(logdir, "correlation{}.txt".format(i)), individual_data_to_save, fmt="%d %f", header="i correlation")
     all_corrs.append(corrs)
@@ -93,3 +95,4 @@ for tau in range(maxtau - 1):
 # Save the average_corrs and variances to a file
 data_to_save = np.column_stack((range(1, maxtau), average_corrs, variances))
 np.savetxt(os.path.join(logdir, "correlation_average.txt"), data_to_save, fmt="%d %f %f", header="i average_correlation variance")
+print("Finished writing correlation.txt files in ../log")

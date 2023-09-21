@@ -9,7 +9,7 @@ xhi=100
 yhi=100
 rd2=2.5
 ra2=0.5
-Nruns=132
+Nruns=1000
 Nstep=1000
 deltat=0.01
 
