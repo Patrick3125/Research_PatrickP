@@ -6,6 +6,11 @@ import json
 import re
 
 logdir = "../log"
+datadir = "../log/computed_data"
+
+# Create the folder to save computed data if it doesn't exist
+if not os.path.exists(datadir):
+    os.makedirs(datadir)
 
 #read input variables from json file
 with open(os.path.join(logdir, 'variables.txt')) as f:
@@ -20,7 +25,7 @@ deltat = var_data["deltat"]
 
 print("Total of " + str(Nruns) + " log files detected.")
 
-maxtau = min(Nstep * 0.9, 250)  #maxtau will be set to 90% of runtime, 250 maximum
+maxtau = int(min(Nstep * 0.9, 100000))  #maxtau will be set to 90% of Nstep, 250 maximum
 theta = 1 / (1 + math.sqrt(rd2 / ra2))
 
 # initialize arrays
@@ -46,6 +51,8 @@ for i in range(1, Nruns+1):
         save_previous_line = None
 
         for line in lines:
+
+            #only read second line when there are two lines after each other
         
             # Used Regular expressions to find lines with only 7 numbers
             real_data = re.match(r"\s*([\d.]+)\s+(\d+)\s+(\d+)\s+(\d+)\s+([\d.]+)\s+(\d+)\s+(\d+)", line)
@@ -66,15 +73,15 @@ for i in range(1, Nruns+1):
     corrs = []
     new_values = np.array(y_values)
     new_values -= theta
-
     for tau in range(1, maxtau):
         new_x = new_values[:-tau]
         new_y = new_values[tau:]
-        corrs.append(np.correlate(new_x, new_y, mode='valid')[0])
+        #corrs.append(np.correlate(new_x, new_y, mode='valid')[0])
+        corrs.append(np.corrcoef(new_x, new_y)[0, 1])
 
     #save individual conrrelations
     individual_data_to_save = np.column_stack((range(1, maxtau), corrs))
-    np.savetxt(os.path.join(logdir, "correlation{}.txt".format(i)), individual_data_to_save, fmt="%d %f", header="i correlation")
+    np.savetxt(os.path.join(datadir, "correlation{}.txt".format(i)), individual_data_to_save, fmt="%d %f", header="i correlation")
     all_corrs.append(corrs)
     average_corrs += np.array(corrs)
 
@@ -94,5 +101,5 @@ for tau in range(maxtau - 1):
 
 # Save the average_corrs and variances to a file
 data_to_save = np.column_stack((range(1, maxtau), average_corrs, variances))
-np.savetxt(os.path.join(logdir, "correlation_average.txt"), data_to_save, fmt="%d %f %f", header="i average_correlation variance")
-print("Finished writing correlation.txt files in ../log")
+np.savetxt(os.path.join(datadir, "average_correlation.txt"), data_to_save, fmt="%d %f %f", header="i average_correlation variance")
+print("Finished writing correlation.txt files in ../log/computed_data")

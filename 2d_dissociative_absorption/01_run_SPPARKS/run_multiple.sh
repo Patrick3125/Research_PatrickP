@@ -5,8 +5,8 @@ spkscr=in.diss_ads
 sitefile=site_data.2D_square
 logdir=../log
 
-xhi=100
-yhi=100
+xhi=200
+yhi=200
 rd2=2.5
 ra2=0.5
 Nruns=1000
