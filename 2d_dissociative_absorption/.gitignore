@@ -3,3 +3,5 @@
 spk_nonmui
 *.strips
 log/
+old/
+res/
