@@ -1,4 +1,5 @@
 rm -rf ../log
 ./run_multiple.sh
-python ../02_parse_compute/correlation.py
+rm -rf ../res
+python ../02_parse_log/loop_SPPARKS_logs.sh
 python ../03_plot_data/plot_correlation.py
