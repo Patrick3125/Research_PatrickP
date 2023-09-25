@@ -5,12 +5,12 @@ spkscr=in.diss_ads
 sitefile=site_data.2D_square
 logdir=../log
 
-xhi=200
-yhi=200
+xhi=100
+yhi=100
 rd2=2.5
 ra2=0.5
-Nruns=1000
-Nstep=1000
+Nruns=100
+Nstep=500
 deltat=0.01
 
 # check spparks executable
