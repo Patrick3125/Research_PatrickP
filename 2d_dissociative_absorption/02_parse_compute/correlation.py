@@ -76,8 +76,8 @@ for i in range(1, Nruns+1):
     for tau in range(1, maxtau):
         new_x = new_values[:-tau]
         new_y = new_values[tau:]
-        #corrs.append(np.correlate(new_x, new_y, mode='valid')[0])
-        corrs.append(np.corrcoef(new_x, new_y)[0, 1])
+        corrs.append(np.correlate(new_x, new_y, mode='valid')[0])
+        #corrs.append(np.corrcoef(new_x, new_y)[0, 1])
 
     #save individual conrrelations
     individual_data_to_save = np.column_stack((range(1, maxtau), corrs))
