@@ -3,23 +3,24 @@ This example project demonstrates:
 
 To run this example:
 1. copy the executable "spk_nonmui" to the current directory:
-   --> cd 01_run_diss_ads
+   --> cd 01_run_SPPARKS
    --> cp ~/GIT/FHDeX/exec/compressible_stag_mui/SPPARKS_MUI/spk_nonmui .
 2. execute the shell script:
-   --> ./run_single.sh
-3. or
    --> ./run_multiple.sh
+   --> python ../02_parse_log/loop_SPPARKS_logs.sh
+   --> python ../03_stats/correlation.py
+   --> python ../04_plot_data/plot_correlation.py
 
 This project contains the following files:
     README              this file
     run_multiple.sh     run simulation multiple times
-    run_single.sh       run simulation single time
+    # run_single.sh       run simulation single time
     create_site_file.py creates sites data file "data.strips"
     in.diss_ads         spparks input script
     clean.sh            deletes all data and outcome files
-    parse_compute.py    computes the correlation, by reading the spparks trajectory
-    graph.py 		graph one sppakrs trajectory
-    plot_correlation.py graph correlation computed from parse_compute.py
+    parse_compute.py    parse through SPPAKRS log files and output simpler version of it.
+    graph.py 		graph one spparks trajectory
+    plot_correlation.py graph correlation computed from correlation.py
 
 
 
