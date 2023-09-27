@@ -15,24 +15,27 @@ with open(os.path.join(logdir, 'variables.txt')) as f:
 
 Nruns = var_data["Nruns"]
 Nstep = var_data["Nstep"]
-maxtau = int(min(Nstep * 0.9, 100000))
+maxtau = int(min((Nstep - 100) * 0.9, 250))
 
-# Read all correlations once and store in a list
-all_corrs = [np.loadtxt(os.path.join(corrdir, "correlation" + str(i) + ".txt"))[:, 1] for i in range(1, Nruns + 1)]
 
-# Calculate the average correlations
-average_corrs = np.mean(all_corrs, axis=0)
+all_corrs = []
+average_corrs = np.zeros(maxtau-1)
+for i in range(1, Nruns+1):
+    corrs = np.loadtxt(os.path.join(corrdir, "correlation{}.txt".format(i)))[:, 1]
+    all_corrs.append(corrs)
+    average_corrs += np.array(corrs)
 
+average_corrs /= Nruns
+variances = np.zeros(maxtau - 1)
 # Calculate the variance for each point
-
-variances = []
-if Nruns > 1:
-    for tau in range(maxtau - 1):
-        mean_value = average_corrs[tau]
-        variance = sum([(corrs[tau] - mean_value)**2 for corrs in all_corrs]) / (Nruns - 1)
-        variances.append(variance)
-else:
-    variances = np.zeros(maxtau - 1)
+for tau in range(maxtau - 1):
+    mean_value = average_corrs[tau]
+    #only calculate variance when num_files is more than one
+    if (Nruns > 1):
+        variance = sum((np.array([corrs[tau] for corrs in all_corrs]) - mean_value)**2) / (Nruns - 1)
+        variances[tau] = variance
+    else:
+        variances[tau] = 0
 
 # Save the average_corrs and variances to a file
 data_to_save = np.column_stack((range(1, maxtau), average_corrs, variances))

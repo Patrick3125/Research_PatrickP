@@ -34,14 +34,14 @@ with open(input_file, "r") as f:
         if real_data:
             if previous_line_is_data:
                 x_values.append(float(real_data.group(1)))
-                y_values.append(float(real_data.group(7)) / total_sites)
+                y_values.append(float(real_data.group(7)))
                 previous_line_is_data = False
             else:
                 previous_line_is_data = True
                 save_previous_line = real_data
         elif previous_line_is_data:
             x_values.append(float(save_previous_line.group(1)))
-            y_values.append(float(save_previous_line.group(7)) / total_sites)
+            y_values.append(float(save_previous_line.group(7)))
             previous_line_is_data = False
 
 # Stack the two lists as columns
