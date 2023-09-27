@@ -10,7 +10,7 @@ yhi=100
 rd2=2.5
 ra2=0.5
 Nruns=100
-Nstep=500
+Nstep=800
 deltat=0.01
 
 # check spparks executable
