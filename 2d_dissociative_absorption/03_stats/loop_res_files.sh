@@ -18,14 +18,16 @@ for (( i=1; i<=Nruns; i++ )); do
     output_file="$corrdir/correlation${i}.txt"
 
     if [ -f "$res_file" ]; then
-        python compute_correlation.py "$res_file" "$output_file"
+        python ../03_stats/compute_correlation.py "$res_file" "$output_file"
     else
         echo "Error: Missing $res_file"
         exit 1
     fi
 done
 
-python compute_av_correlation.py
+echo "Finished writing correlation.txt files"
 
-echo "Finished processing all res files."
+python ../03_stats/compute_av_correlation.py
+
+echo "Finished writing average_correlation.txt."
 

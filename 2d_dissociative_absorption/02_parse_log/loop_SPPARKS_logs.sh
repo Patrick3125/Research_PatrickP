@@ -27,15 +27,16 @@ fi
 readarray -t log_files < <(find $logdir -name "log*.spparks" | sort -V)
 
 
-# Loop through all log files
-for log_file in "${log_files[@]}"; do
-    # Extract the numbering from the log_file name, assuming the naming format is log<num>.spparks
-    num=$(basename "$log_file" | sed 's/^log\([0-9]*\)\.spparks$/\1/')
+# Loop through the log files in order using Nruns
+for (( i=1; i<=Nruns; i++ )); do
+    log_file="$logdir/log${i}.spparks"
+    res_file="$resdir/res${i}.txt"
     
-    # Construct the res_file path
-    res_file="$resdir/res$num.txt"
-    
-    echo "Processing $log_file -> $res_file"
-    python parse_log_file.py "$log_file" "$res_file"
+    if [ -f "$log_file" ]; then
+        echo "Processing $log_file -> $res_file"
+        python ../02_parse_log/parse_log_file.py "$log_file" "$res_file"
+    else
+        echo "Error: Missing $log_file"
+    fi
 done
-
+echo "Finished Writing res files"
