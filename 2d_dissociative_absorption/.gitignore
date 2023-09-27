@@ -1,8 +1,11 @@
 *.spparks
 *.txt
-spk_nonmui
 *.strips
+*.swp
+
+spk_nonmui
+
 log/
 old/
 res/
-*.swp
+correlation/
