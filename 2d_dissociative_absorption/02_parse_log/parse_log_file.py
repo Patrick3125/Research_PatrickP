@@ -6,7 +6,11 @@ import re
 
 logdir = "../log"
 
-# Read input file path and output file path from command line arguments
+if len(sys.argv) != 3:
+    print("Usage: python parse_log_file.py <input_res_file> <output_file>")
+    sys.exit(1)
+
+# Read input file path and output file path from arguments
 input_file = sys.argv[1]
 output_file = sys.argv[2]
 
@@ -16,7 +20,6 @@ with open(os.path.join(logdir, 'variables.txt')) as f:
 
 total_sites = var_data["xhi"] * var_data["yhi"]
 
-# Process the input file
 x_values = []
 y_values = []
 

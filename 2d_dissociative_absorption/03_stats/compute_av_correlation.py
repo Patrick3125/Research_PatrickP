@@ -17,7 +17,6 @@ Nruns = var_data["Nruns"]
 Nstep = var_data["Nstep"]
 maxtau = int(min((Nstep - 100) * 0.9, 250))
 
-
 all_corrs = []
 average_corrs = np.zeros(maxtau-1)
 for i in range(1, Nruns+1):
@@ -25,8 +24,11 @@ for i in range(1, Nruns+1):
     all_corrs.append(corrs)
     average_corrs += np.array(corrs)
 
+#calculate average
 average_corrs /= Nruns
+
 variances = np.zeros(maxtau - 1)
+
 # Calculate the variance for each point
 for tau in range(maxtau - 1):
     mean_value = average_corrs[tau]
@@ -40,5 +42,4 @@ for tau in range(maxtau - 1):
 # Save the average_corrs and variances to a file
 data_to_save = np.column_stack((range(1, maxtau), average_corrs, variances))
 np.savetxt(os.path.join(corrdir, "average_correlation.txt"), data_to_save, fmt="%d %f %f", header="i average_correlation variance")
-print("Finished writing average_correlation.txt file in {}".format(corrdir))
 

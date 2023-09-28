@@ -5,7 +5,7 @@ import os
 # Path where the files are stored
 corrdir = "../correlation"
 
-# Automatically detect the number of correlation data files
+# Detect the number of correlation data files
 correlation_files = [f for f in os.listdir(corrdir) if f.startswith('correlation')]
 num_files = len(correlation_files)
 
@@ -16,7 +16,6 @@ average_corrs = data[:, 1]
 variances = data[:, 2]
 
 fig, ax = plt.subplots()
-
 
 # Plot each individual correlation data
 for i in range(1, num_files + 1):
@@ -29,7 +28,7 @@ for i in range(1, num_files + 1):
 
 
 # Plot the average correlations
-ax.plot(i_values, average_corrs, '-', color='blue', linewidth=2, label="Average Correlation")
+ax.plot(i_values, average_corrs, '-', color='green', linewidth=2, label="Average Correlation")
 
 # Plot the error bars at an interval
 errbar_interval = 3  # Show error bars every 3 points
@@ -40,7 +39,7 @@ ax.errorbar(i_values[::errbar_interval],
 
 ax.set_xlabel('tau')
 ax.set_ylabel('correlation')
-ax.set_title('Graphs from log files')
+ax.set_title('')
 ax.grid(True)
 ax.legend(loc='upper right')
 

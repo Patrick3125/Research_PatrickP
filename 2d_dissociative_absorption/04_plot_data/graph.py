@@ -13,7 +13,7 @@ with open("../res/res1.txt", "r") as f:
 plt.plot(x_values, y_values, '-')
 plt.xlabel('time')
 plt.ylabel('coverage')
-plt.title('Graph from log.spparks')
+plt.title('coverage over time')
 plt.grid(True)
 plt.show()
 

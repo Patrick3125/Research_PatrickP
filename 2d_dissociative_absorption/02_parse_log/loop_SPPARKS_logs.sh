@@ -24,6 +24,7 @@ if [ "$Nruns" -ne "${#log_files[@]}" ]; then
     exit 1
 fi
 
+#sort files so that it reads in order
 readarray -t log_files < <(find $logdir -name "log*.spparks" | sort -V)
 
 
