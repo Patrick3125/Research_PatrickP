@@ -7,8 +7,8 @@ To run this example:
    --> cp ~/GIT/FHDeX/exec/compressible_stag_mui/SPPARKS_MUI/spk_nonmui .
 2. execute the shell script:
    --> ./run_multiple.sh
-   --> python ../02_parse_log/loop_SPPARKS_logs.sh
-   --> python ../03_stats/loop_res_files.sh
+   --> ../02_parse_log/loop_SPPARKS_logs.sh
+   --> ../03_stats/loop_res_files.sh
    --> python ../04_plot_data/plot_correlation.py         or        python ../04_plot_data/plot_log.py
 
 This project contains the following files:
