@@ -3,14 +3,14 @@ import numpy as np
 import os
 
 # Path where the files are stored
-corrdir = "../correlation"
+resdir = "../res"
 
 # Detect the number of correlation data files
-correlation_files = [f for f in os.listdir(corrdir) if f.startswith('correlation')]
+correlation_files = [f for f in os.listdir(resdir) if f.startswith('corr')]
 num_files = len(correlation_files)
 
 # Read the saved average correlation data
-data = np.loadtxt(os.path.join(corrdir, "average_correlation.txt"))
+data = np.loadtxt(os.path.join(resdir, "average_corr.txt"))
 i_values = data[:, 0]
 average_corrs = data[:, 1]
 variances = data[:, 2]
@@ -20,11 +20,11 @@ fig, ax = plt.subplots()
 # Plot each individual correlation data
 for i in range(1, num_files + 1):
     try:
-        individual_data = np.loadtxt(os.path.join(corrdir, "correlation{}.txt".format(i)))
+        individual_data = np.loadtxt(os.path.join(resdir, "corr{}.txt".format(i)))
         individual_corrs = individual_data[:, 1]
         ax.plot(i_values, individual_corrs, '-', color='lightblue', alpha=0.2, linewidth=1)
     except IOError:
-        print("correlation{}.txt not found. Skipping...".format(i))
+        print("corr{}.txt not found. Skipping...".format(i))
 
 
 # Plot the average correlations

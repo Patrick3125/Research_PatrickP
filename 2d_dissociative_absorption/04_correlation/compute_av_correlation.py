@@ -3,11 +3,7 @@ import os
 import json
 
 logdir = "../log"
-corrdir = "../correlation"
-
-# Ensure the directory exists
-if not os.path.exists(corrdir):
-    os.makedirs(corrdir)
+resdir = "../res"
 
 # Read input variables from the JSON file
 with open(os.path.join(logdir, 'variables.txt')) as f:
@@ -20,7 +16,7 @@ maxtau = int(min((Nstep - 100) * 0.9, 250))
 all_corrs = []
 average_corrs = np.zeros(maxtau-1)
 for i in range(1, Nruns+1):
-    corrs = np.loadtxt(os.path.join(corrdir, "correlation{}.txt".format(i)))[:, 1]
+    corrs = np.loadtxt(os.path.join(resdir, "corr{}.txt".format(i)))[:, 1]
     all_corrs.append(corrs)
     average_corrs += np.array(corrs)
 
@@ -41,5 +37,5 @@ for tau in range(maxtau - 1):
 
 # Save the average_corrs and variances to a file
 data_to_save = np.column_stack((range(1, maxtau), average_corrs, variances))
-np.savetxt(os.path.join(corrdir, "average_correlation.txt"), data_to_save, fmt="%d %f %f", header="i average_correlation variance")
+np.savetxt(os.path.join(resdir, "average_corr.txt"), data_to_save, fmt="%d %f %f", header="i average_correlation variance")
 

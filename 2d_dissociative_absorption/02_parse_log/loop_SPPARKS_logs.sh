@@ -31,7 +31,7 @@ readarray -t log_files < <(find $logdir -name "log*.spparks" | sort -V)
 # Loop through the log files in order using Nruns
 for (( i=1; i<=Nruns; i++ )); do
     log_file="$logdir/log${i}.spparks"
-    res_file="$resdir/res${i}.txt"
+    res_file="$resdir/data${i}.txt"
     
     if [ -f "$log_file" ]; then
         echo "Processing $log_file -> $res_file"
