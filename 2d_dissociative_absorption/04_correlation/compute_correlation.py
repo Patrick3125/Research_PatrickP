@@ -12,6 +12,7 @@ input_res_file = sys.argv[1]
 output_file = sys.argv[2]
 
 logdir = "../log"
+resdir = "../res"
 
 # Read input variables from json file
 with open(os.path.join(logdir, 'variables.txt')) as f:
@@ -23,6 +24,9 @@ ra2 = var_data["ra2"]
 Nruns = var_data["Nruns"]
 Nstep = var_data["Nstep"]
 deltat = var_data["deltat"]
+
+average_cov = np.loadtxt(os.path.join(resdir, "theta.txt"), skiprows=1 )[1]
+
 
 # cut off the first 100 steps, and then maxtau will be 90% of that
 maxtau = int(min((Nstep-100) * 0.9, 250))

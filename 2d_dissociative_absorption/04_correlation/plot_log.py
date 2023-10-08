@@ -48,9 +48,9 @@ y_neg1 = log_log_line(tau_values, -1, x0, y0)
 y_neg0_5 = log_log_line(tau_values, -0.5, x0, y0)
 y_neg1_5 = log_log_line(tau_values, -1.5, x0, y0)
 
-ax.plot(tau_values, y_minus_1, 'r--', label='Slope -1')
-ax.plot(tau_values, y_0_5, 'g--', label='Slope -0.5')
-ax.plot(tau_values, y_minus_1_5, 'm--', label='Slope -1.5')
+ax.plot(tau_values, y_neg1, 'r--', label='Slope -1')
+ax.plot(tau_values, y_neg0_5, 'g--', label='Slope -0.5')
+ax.plot(tau_values, y_neg1_5, 'm--', label='Slope -1.5')
 
 #log scale
 plt.xscale("log")

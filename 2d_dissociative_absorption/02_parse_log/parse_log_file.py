@@ -51,5 +51,5 @@ with open(input_file, "r") as f:
 data = np.column_stack((x_values, y_values))
 
 # Save the data to the output file in a two-column format
-np.savetxt(output_file, data, fmt='%f', delimiter=' ')
+np.savetxt(output_file, data, fmt='%f', header="time covered_sites")
 
