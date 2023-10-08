@@ -13,7 +13,7 @@ num_files = len(correlation_files)
 
 # Read the saved average correlation data
 data = np.loadtxt(os.path.join(resdir, "average_corr.txt"))
-i_values = data[:, 0]
+tau_values = data[:, 0]
 average_corrs = data[:, 1]
 variances = data[:, 2]
 
@@ -24,7 +24,7 @@ for i in range(1, num_files + 1):
     try:
         individual_data = np.loadtxt(os.path.join(resdir, "corr{}.txt".format(i)))
         individual_corrs = individual_data[:, 1]
-        ax.plot(i_values, individual_corrs, '-', color='lightblue', alpha=0.2, linewidth=1)
+        ax.plot(tau_values, individual_corrs, '-', color='lightblue', alpha=0.2, linewidth=1)
     except IOError:
         print("corr{}.txt not found. Skipping...".format(i))
 
@@ -32,11 +32,25 @@ ax.plot(1, 1, '-', color='lightblue', alpha=0.2, linewidth=1, label = "individua
 
 
 # Plot the average correlations
-ax.plot(i_values, average_corrs, '-', color='blue', linewidth=2, label="Average Correlation")
+ax.plot(tau_values, average_corrs, '-', color='blue', linewidth=2, label="Average Correlation")
 
 #zoom into average
-ax.set_xlim([np.min(i_values) , np.max(i_values)])
+ax.set_xlim([np.min(tau_values) , np.max(tau_values)])
 ax.set_ylim([np.min(average_corrs) * 0.8, np.max(average_corrs) * 1.2])
+
+x0 = np.mean(tau_values)
+y0 = average_corrs[np.argmin(np.abs(tau_values - x0))]
+
+def log_log_line(x, m, x0, y0):
+    return y0 * (x / x0)**m
+
+y_neg1 = log_log_line(tau_values, -1, x0, y0)
+y_neg0_5 = log_log_line(tau_values, -0.5, x0, y0)
+y_neg1_5 = log_log_line(tau_values, -1.5, x0, y0)
+
+ax.plot(tau_values, y_minus_1, 'r--', label='Slope -1')
+ax.plot(tau_values, y_0_5, 'g--', label='Slope -0.5')
+ax.plot(tau_values, y_minus_1_5, 'm--', label='Slope -1.5')
 
 #log scale
 plt.xscale("log")
