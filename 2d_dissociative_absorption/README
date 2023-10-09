@@ -16,24 +16,26 @@ This project contains the following files:
 	README              	this file
 
    01_run_SPPARKS/
-	run_multiple.sh     	run simulation multiple times
-	run_all  		run all codes in order from simulation to graph. This will erase all exsisting log files
-	create_site_file.py 	creates sites data file "data.strips"
-	in.diss_ads         	spparks input script
+	run_multiple.sh     	    run simulation multiple times
+	run_all.sh  		        run all codes in order from simulation to graph. This will erase all exsisting log files
+	create_site_file.py     	creates sites data file "data.strips"
+	in.diss_ads              	spparks input script
 
    02_parse_log/
-	loop_SPPARKS_logs.sh	iterate though all SPPARKS log files and call parse_compute to parse them
-	parse_compute.py    	parse one SPPARKS log file 
+	loop_SPPARKS_logs.sh	    iterate though all SPPARKS log files and call parse_compute to parse them
+	parse_compute.py    	    parse one SPPARKS log file 
 
-   03_stats/
-	loop_res_files		iterate though all res files created by 02_parse_log, and calls compute_correlation
-	compute_correlation	compute correation of one res file
-	compute_av_correlation	compute averaged correlation and variance
+   03_surface_coverage/
+    compute_av_surface_cov.py   computes average surface coverage and theta, and then saves it to res/theta.txt and res/average_surface_coverage.txt
+    plot_one_cov.py             plots one spparks trajectory
+    plot_all_cov.py             plots all spparks trajectory along with average coverage and errorbars    
 
-   04_plot_data/
-	graph.py 		graph one spparks trajectory
-	plot_correlation.py 	graph correlation computed by 03_stats/
-	plot_log.py		grapg correlation computed by 03_stats/ in a log scale
+   04_correlation
+	loop_res_files.sh		    iterate though all res files created by 02_parse_log, and calls compute_correlation
+	compute_correlation.py	    compute correation of one res file
+	compute_av_correlation.py	compute averaged correlation and variance
+	plot_correlation.py 	    graph correlation computed by 03_stats/
+	plot_log.py		            grapg correlation computed by 03_stats/ in a log scale
 
 
 
