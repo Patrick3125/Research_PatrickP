@@ -22,6 +22,11 @@ data = np.loadtxt(os.path.join(resdir, "average_surface_coverage.txt"))
 time = data[:, 0]
 average_cov = data[:, 1]
 
+data = np.loadtxt(os.path.join(resdir, "theta.txt"), skiprows=1)
+theta = data[1]
+
+
+
 fig, ax = plt.subplots()
 all_cov = []
 # Plot each individual correlation data
@@ -51,7 +56,7 @@ for t in range(0, len(time)):
 
 
 # Plot the average correlations
-ax.plot(time, average_cov, '-', color='green', linewidth=2, label="Average Coverage")
+ax.plot(time, average_cov, '-', color='green', linewidth=2, label="Average Coverage", zorder=4)
 
 # Plot the error bars at an interval
 errbar_interval = 3  # Show error bars every 3 points
@@ -60,13 +65,14 @@ ax.errorbar(time[::errbar_interval],
             yerr=np.sqrt(variances[::errbar_interval]),
             fmt='', ecolor='red', zorder=3)
 
-ax.axhline(y=np.mean(average_cov), color='purple', linestyle='--', label='Mean of Average Coverage')
+#ax.axhline(y=np.mean(average_cov), color='purple', linestyle='--', label='Mean of Average Coverage')
+ax.axhline(y=theta, color='purple', linestyle='--', label='theta')
 
+ax.legend(loc="lower right")
 ax.set_xlabel('time')
 ax.set_ylabel('coverage')
 ax.set_title('')
 ax.grid(True)
-ax.legend(loc='upper right')
 
 plt.show()
 
