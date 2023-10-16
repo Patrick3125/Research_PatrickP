@@ -11,7 +11,7 @@ with open(os.path.join(logdir, 'variables.txt')) as f:
     var_data = json.load(f)
 total_sites = var_data["xhi"] * var_data["yhi"]
 Nruns = var_data["Nruns"]
-
+size = var_data["xhi"]
 
 # Detect the number of correlation data files
 data_files = [f for f in os.listdir(resdir) if f.startswith('data')]
@@ -73,7 +73,7 @@ ax.set_xlabel('time')
 ax.set_ylabel('coverage')
 ax.set_title('')
 ax.grid(True)
-
-plt.show()
+fig.savefig('../temp_graph/coverage{}.png'.format(size))
+plt.close(fig)
 
 
