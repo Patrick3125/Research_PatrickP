@@ -29,7 +29,7 @@ average_cov = np.loadtxt(os.path.join(resdir, "theta.txt"), skiprows=1 )[1]
 
 
 # cut off the first 100 steps, and then maxtau will be 90% of that
-maxtau = int(min((Nstep-100) * 0.9, 250))
+maxtau = int(min((Nstep-100) * 0.9, 500))
 theta = 1 / (1 + math.sqrt(rd2 / ra2))
 
 x_values = []

@@ -11,7 +11,7 @@ with open(os.path.join(logdir, 'variables.txt')) as f:
 
 Nruns = var_data["Nruns"]
 Nstep = var_data["Nstep"]
-maxtau = int(min((Nstep - 100) * 0.9, 250))
+maxtau = int(min((Nstep - 100) * 0.9, 500))
 
 all_corrs = []
 average_corrs = np.zeros(maxtau-1)
