@@ -1,9 +1,10 @@
 import numpy as np
 import os
 import json
+import sys
 
-logdir = "../log"
-resdir = "../res"
+logdir = sys.argv[1]
+resdir = sys.argv[2]
 
 # Read input variables from the JSON file
 with open(os.path.join(logdir, 'variables.txt')) as f:

@@ -4,15 +4,15 @@ import sys
 import os
 import json
 
-if len(sys.argv) != 3:
-    print("Usage: python compute_correlation.py <input_res_file> <output_file>")
+if len(sys.argv) != 5:
+    print("Usage: python compute_correlation.py <input_res_file> <output_file> <logdir> <resdir>")
     sys.exit(1)
 
 input_res_file = sys.argv[1]
 output_file = sys.argv[2]
 
-logdir = "../log"
-resdir = "../res"
+logdir = sys.argv[3]
+resdir = sys.argv[4]
 
 # Read input variables from json file
 with open(os.path.join(logdir, 'variables.txt')) as f:
@@ -29,7 +29,7 @@ average_cov = np.loadtxt(os.path.join(resdir, "theta.txt"), skiprows=1 )[1]
 
 
 # cut off the first 100 steps, and then maxtau will be 90% of that
-maxtau = int(Nstep-100) * 0.9, 500)
+maxtau = int((Nstep-100) * 0.9)
 theta = 1 / (1 + math.sqrt(rd2 / ra2))
 
 x_values = []

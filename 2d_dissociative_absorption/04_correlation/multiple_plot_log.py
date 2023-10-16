@@ -7,7 +7,7 @@ from matplotlib import cm
 # Path where the files are stored
 base_dir = ".."
 
-fig, ax = plt.subplots()
+fig, ax = plt.subplots(figsize=(20, 12))
 allaverage = []
 # Loop through each directory and plot data with different colors
 for i in range(1, 11):
@@ -53,7 +53,7 @@ ax.set_xlabel('tau')
 ax.set_ylabel('correlation')
 ax.set_title('')
 ax.grid(False)
-ax.legend(loc='upper right')
+ax.legend(loc='lower left')
 fig.savefig('../temp_graph/all.png')
 plt.show()
 
