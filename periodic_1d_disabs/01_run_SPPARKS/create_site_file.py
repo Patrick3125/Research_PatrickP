@@ -1,7 +1,6 @@
 import numpy as np
 import sys
 
-# command line input
 if len(sys.argv) != 4:
     print("Usage: python %s xhi yhi site_file" % sys.argv[0])
     sys.exit()
@@ -42,18 +41,6 @@ outfile.write("Neighbors\n\n")
 for j in range(0, yhi):
     for i in range(1, xhi + 1):
         site_id = i + j * xhi
-        # For each site, the right neighbor is the next site in the x-direction
-        #right_neighbor = site_id + 1
-        # For each site, the left neighbor is the previous site in the x-direction
-        #left_neighbor = site_id - 1
-        
-        # If it's the first site in the row, wrap around to the last site
-        #if i == 1:
-        #    left_neighbor += xhi
-        # If it's the last site in the row, wrap around to the first site
-        #if i == xhi:
-        #    right_neighbor -= xhi 
-        #outfile.write("{} {} {}\n".format(site_id, left_neighbor, right_neighbor))
 
         neighbors = []
         if i > 1:  # has left neighbor
