@@ -1,0 +1,12 @@
+*.spparks
+*.txt
+*.strips
+*.swp
+
+spk_nonmui
+
+temp_graph/
+log*
+old/
+res*
+correlation/
