@@ -3,18 +3,16 @@ import matplotlib.pyplot as plt
 from matplotlib.ticker import MaxNLocator
 import math
 import numpy as np
-import json
-import os
-# define symbols
+# Redefine symbols
 m, j, k = symbols('m j k', integer=True)
 k_value = 5
 
-theta_analytical = []
-theta_simulation = []
-num_sites = []
-theta_means = []
+# Create lists to store the results
+theta_2m_plus_1_results = []
+theta_from_res_results = []
+product_values = []  # This will store the product of x and y
+theta_means = []  # Store the mean of theta values
 theta_errors = []
-theta = -1
 is_bipartite=[]
 
 N_values = list(range(3, 101, 1))
@@ -22,22 +20,20 @@ for x in range(3, 10):
     for y in range(3, 11):
         product = x * y
         product_values.append(product)
-        if x % 2 ==0 and y %2 ==0:
-            is_bipartite.append(True)
-        else:
-            is_bipartite.append(False)
-        N = product
-        if x %2 ==1 or y %2 ==1:
-            m_value = (N - 1) / 2  
-            numerator_sum = Sum((m - j) * binomial(2*m+1, 2*(m-j)) / k**(m-j), (j, 0, m))
-            denominator_sum = Sum(binomial(2*m+1, 2*(m-j)) / k**(m-j), (j, 0, m))
+        is_bipartite.append(True)
+        N = product  # Assuming N is the product of x and y
+        if N % 2 == 1:
+            m_value = (N - 1) / 2  # Use integer division for m_value
+            numerator_sum = Sum((m - j) * binomial(m+1, (m-j))*binomial(m, j) / k**(m-j), (j, 0, m))
+            denominator_sum = Sum(binomial(m+1, (m-j)) * binomial(m,j) / k**(m-j), (j, 0, m))
             theta_2m_plus_1_expr = 2 / (m*2+1) * (numerator_sum / denominator_sum)
 
-        elif x %2 ==1 or y %2 ==1:
-            m_value = N  / 2  
-            numerator_sum = Sum((m - j) * binomial(2*m, 2*j) * (m-j) / k**(m-j), (j, 0, m))
-            denominator_sum = Sum(binomial(2*m, 2*j) / k**(m-j), (j, 0, m))
-            theta_2m_plus_1_expr = 1 / m * (numerator_sum / denominator_sum)
+#        numerator_sum = Sum((m - j) * binomial(2*m+1, 2*(m-j)) / k**(m-j), (j, 0, m))
+#        denominator_sum = Sum(binomial(2*m+1, 2*(m-j)) / k**(m-j), (j, 0, m))
+#        theta_2m_plus_1_expr = 2 / (m*2+1) * (numerator_sum / denominator_sum)
+        #numerator_sum = Sum(binomial(2*m, 2*j+1) * k**j, (j, 0, m-1))
+        #denominator_sum = Sum(binomial(2*m+1, 2*j+1) * k**j, (j, 0, m))
+        #theta_2m_plus_1_expr = (numerator_sum / denominator_sum)
 
         else:
             m_value = N / 2  # Use integer division for m_value
@@ -48,8 +44,7 @@ for x in range(3, 10):
         theta_2m_plus_1_simplified = theta_2m_plus_1_expr.subs({m: m_value, k: k_value})
         theta_2m_plus_1 = theta_2m_plus_1_simplified.doit().evalf()
         theta_2m_plus_1_results.append(theta_2m_plus_1)
-
-
+        
         with open('../res_{}_{}'.format(x, y) + '/average_surface_coverage.txt') as f:
             f.readline()  # Skip the first row
             theta_values = [float(line) for line in f]  # Assuming the second column is theta
@@ -90,18 +85,18 @@ sorted_bipartite = sorted(zipped_bipartite)
 bipartite_product_values, bipartite_theta_means, bipartite_theta_errors = zip(*sorted_bipartite)
 
 # Sort the non-bipartite lists
-zipped_nonbipartite = zip(nonbipartite_product_values, nonbipartite_theta_means, nonbipartite_theta_errors)
-sorted_nonbipartite = sorted(zipped_nonbipartite)
-nonbipartite_product_values, nonbipartite_theta_means, nonbipartite_theta_errors = zip(*sorted_nonbipartite)
+#zipped_nonbipartite = zip(nonbipartite_product_values, nonbipartite_theta_means, nonbipartite_theta_errors)
+#sorted_nonbipartite = sorted(zipped_nonbipartite)
+#nonbipartite_product_values, nonbipartite_theta_means, nonbipartite_theta_errors = zip(*sorted_nonbipartite)
 
 # Convert zipped lists back to lists
 bipartite_product_values = list(bipartite_product_values)
 bipartite_theta_means = list(bipartite_theta_means)
 bipartite_theta_errors = list(bipartite_theta_errors)
 
-nonbipartite_product_values = list(nonbipartite_product_values)
-nonbipartite_theta_means = list(nonbipartite_theta_means)
-nonbipartite_theta_errors = list(nonbipartite_theta_errors)
+#nonbipartite_product_values = list(nonbipartite_product_values)
+#nonbipartite_theta_means = list(nonbipartite_theta_means)
+#nonbipartite_theta_errors = list(nonbipartite_theta_errors)
  
 plt.errorbar(nonbipartite_product_values, nonbipartite_theta_means, yerr=nonbipartite_theta_errors, fmt='x-', label='Theta for Non-bipartite', ecolor='red', color='orange')
 
