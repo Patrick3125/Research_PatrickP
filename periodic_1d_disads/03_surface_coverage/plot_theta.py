@@ -64,7 +64,6 @@ for N in N_values:
  
 theta_errors_3sigma = [error * 3 for error in theta_errors]
 
-
 plt.figure(figsize=(4.5, 3))
 
 even_indices = range(0, len(num_sites), 2)  
@@ -72,7 +71,7 @@ odd_indices = range(1, len(num_sites), 2)
 
 
 # Plot lines for odd points with lower zorder
-plt.plot([num_sites[i] for i in odd_indices], [theta_means[i] for i in odd_indices], '-', color='green', linewidth=1, zorder=10)
+plt.plot([num_sites[i] for i in odd_indices], [theta_means[i] for i in odd_indices], '-', color='blue', linewidth=1, zorder=10)
 
 # Error bars for odd points with higher zorder
 plt.errorbar([num_sites[i] for i in odd_indices],
@@ -81,7 +80,7 @@ plt.errorbar([num_sites[i] for i in odd_indices],
              fmt='none', ecolor='red', zorder=20)
 
 # Plot lines for even points with lower zorder
-plt.plot([num_sites[i] for i in even_indices], [theta_means[i] for i in even_indices], '-', color='blue', linewidth=1, zorder=10)
+plt.plot([num_sites[i] for i in even_indices], [theta_means[i] for i in even_indices], '-', color='green', linewidth=1, zorder=10)
 
 # Error bars for even points with higher zorder
 plt.errorbar([num_sites[i] for i in even_indices],
@@ -109,7 +108,6 @@ plt.ylim(0.23, 0.33)
 
 x_ticks = plt.gca().get_xticks()
 y_ticks = plt.gca().get_yticks()
-print(y_ticks)
 
 plt.gca().set_xticklabels(['{:.0f}'.format(x_ticks[0]), '', '{:.0f}'.format(x_ticks[2]), '', '{:.0f}'.format(x_ticks[4])])
 plt.gca().set_yticklabels(['{:.2f}'.format(y_ticks[0]), '{:.2f}'.format(y_ticks[1]), '', '{:.2f}'.format(y_ticks[3]), '', '{:.2f}'.format(y_ticks[5])])
