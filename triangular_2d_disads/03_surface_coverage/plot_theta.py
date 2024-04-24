@@ -5,7 +5,7 @@ import math
 import numpy as np
 import json
 import os
-# define symbols
+# Define symbols
 m, j, k = symbols('m j k', integer=True)
 k_value = 5
 
@@ -17,7 +17,7 @@ theta_errors = []
 theta = -1
 is_bipartite=[]
 
-#reading how many log files there are 
+#reading how many log files there are
 log_folders = [item for item in os.listdir('../') if os.path.isdir(os.path.join('../', item)) and item.startswith('log_') and item.count('_') == 2]
 x_vals = []
 y_vals = []
@@ -34,33 +34,15 @@ for folder in log_folders:
 for i in range(len(x_vals)):
     x = x_vals[i]
     y = y_vals[i]
-    N = x * y
+    N = x * y * 2
     num_sites.append(N)
-    if x % 2 ==0 and y %2 ==0:
-        is_bipartite.append(True)
-    else:
-        is_bipartite.append(False)
+    # Always non-bipartite
+    is_bipartite.append(False)
 
-    # Use different analytical equation depending on oddity of x and y
-    if x %2 ==0 and y %2 ==0:
-        m_value = N / 2  
-        numerator_sum = Sum(binomial(m, j) * binomial(m-1,j) * k**j, (j, 0, m-1))
-        denominator_sum = Sum(binomial(m, j)**2 * k**j, (j, 0, m))
-        theta_analytical_expr =(numerator_sum / denominator_sum)
-
-    elif x %2 ==1 and y %2 ==1:
-        m_value = (N - 1)  / 2  
-        numerator_sum = Sum(binomial(2*m, 2*j+1) * k**j, (j, 0, m-1))
-        denominator_sum = Sum(binomial(2*m+1, 2*j+1) * k**j, (j, 0, m))
-        theta_analytical_expr = (numerator_sum / denominator_sum)
-
-    # when only one of x and y are odd
-    else:
-        m_value = N / 2 
-        numerator_sum = Sum(binomial(2*m, 2*j) *(m - j) * k**j, (j, 0, m))
-        denominator_sum = Sum(binomial(2*m, 2*j) * k**j, (j, 0, m))
-        theta_analytical_expr = 1/ m * (numerator_sum / denominator_sum)
-
+    m_value = N / 2
+    numerator_sum = Sum(binomial(2*m, 2*j) * (m - j) * k**j, (j, 0, m))
+    denominator_sum = Sum(binomial(2*m, 2*j) * k**j, (j, 0, m))
+    theta_analytical_expr = 1 / m * (numerator_sum / denominator_sum)
 
     # Get k value from json file
     with open('../log_{}_{}'.format(x, y) + '/variables.txt') as f:
@@ -74,30 +56,29 @@ for i in range(len(x_vals)):
     theta_analytical_simplified = theta_analytical_expr.subs({m: m_value, k: k_value})
     theta_analytical_temp = theta_analytical_simplified.doit().evalf()
     theta_analytical.append(theta_analytical_temp)
-
-    # Compute the error bar and average from simulation data
-    with open('../res_{}_{}'.format(x, y) + '/average_surface_coverage.txt') as f:
-        f.readline()  # Skip the first row
-        theta_values = [float(line) for line in f]  # Assuming the second column is theta
-
-        theta_mean = sum(theta_values) / len(theta_values)
-
-        sample_variance = sum((x - theta_mean) ** 2 for x in theta_values) / (len(theta_values) - 1)
-        standard_error = ((sample_variance / len(theta_values)) ** 0.5)
-        theta_means.append(theta_mean)
-        theta_errors.append(standard_error)
  
+    with open('../res_{}_{}'.format(x, y) + '/average_surface_coverage.txt') as f:
+       f.readline()  # Skip the first row
+       theta_values = [float(line) for line in f]  # Assuming the second column is theta
+       theta_mean = sum(theta_values) / len(theta_values)
+
+       sample_variance = sum((x - theta_mean) ** 2 for x in theta_values) / (len(theta_values) - 1)
+       standard_error = ((sample_variance / len(theta_values)) ** 0.5)
+       theta_means.append(theta_mean)
+       theta_errors.append(standard_error)
+ 
+
 theta_errors_3sigma = [error * 3 for error in theta_errors]
 
 plt.figure(figsize=(4.5, 3))
 
 # Initializing lists for storing sorted data
-bp_sites = []  
-bp_means = []  
-bp_errors = [] 
-nbp_sites = [] 
-nbp_means = []  
-nbp_errors = [] 
+bp_sites = []
+bp_means = []
+bp_errors = []
+nbp_sites = []
+nbp_means = []
+nbp_errors = []
 
 # Sort num_sites in numerical order for plotting
 for i in range(len(num_sites)):
@@ -134,10 +115,12 @@ bp_errors = list(bp_errors)
 nbp_sites = list(nbp_sites)
 nbp_means = list(nbp_means)
 nbp_errors = list(nbp_errors)
- 
+
 # lines for non-bipartite
 plt.plot(nbp_sites, nbp_means, '-', color='green', linewidth=1, zorder=10)
 
+print(nbp_sites)
+print(nbp_means)
 # Error bars for non-bipartite
 plt.errorbar(nbp_sites,
              nbp_means,
@@ -190,3 +173,4 @@ plt.grid(True)
 plt.savefig('periodic_1d_even_odd.png', format='png', dpi=300)
 plt.show()
 
+ 

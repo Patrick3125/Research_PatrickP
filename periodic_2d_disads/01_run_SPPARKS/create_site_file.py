@@ -5,15 +5,15 @@ if len(sys.argv) != 4:
     print("Usage: python %s xhi yhi site_file" % sys.argv[0])
     sys.exit()
 
-xhi = int(sys.argv[1])      # number of cells in x-dir
-yhi = int(sys.argv[2])      # number of cells in y-dir
-filename = sys.argv[3]      # output filename
+xhi = int(sys.argv[1])      # Number of cells in x-dir
+yhi = int(sys.argv[2])      # Number of cells in y-dir
+filename = sys.argv[3]      # Output filename
 
 # define variables
 
-a1 = 1.             # spacing in x-dir
-a2 = 1.             # spacing in y-dir
-nsites = xhi * yhi  # total number of sites
+a1 = 1.             # Spacing in x-dir for image output
+a2 = 1.             # Spacing in y-dir for image output
+nsites = xhi * yhi  # Total number of sites
 
 # open output file and write first part
 
