@@ -3,8 +3,8 @@
 rm -rf ../res
 rm -rf ../log
 
-for x in {1..3}; do
-    for y in {1..3}; do
+for x in {2..4}; do
+    for y in {2..4}; do
         size_x=$x
         size_y=$y
 

@@ -1,24 +1,21 @@
 #!/bin/bash
 
-# Check if $1 and $2 are provided
-if [ -z "$1" ] || [ -z "$2" ]; then
-    echo "Usage: $0 <value1> <value2>"
-    echo "Please provide two values as arguments."
-    exit 1
-fi
-
-
 spkexe=./spk_nonmui
 spkscr=in.diss_ads
 sitefile=site_data.2D_square
 logdir=../log
-
-xhi=$1
-yhi=$2
-rd2=2.5
-ra2=0.5
-Nruns=200
-Nstep=1000
+xhi=${1:-5}
+yhi=${1:-5}
+raA1=0.5
+rdA1=2.5
+raB1=0.5
+rdB1=2.5
+raX2=0.5
+rdX2=2.5
+raY2=0.5
+rdY2=2.5
+Nruns=2000
+Nstep=5000
 deltat=0.1
 
 # check spparks executable
@@ -50,7 +47,7 @@ do
     do
         logfile=$logdir/log${seed}.spparks
         echo "running $spkexe with seed = $seed"
-        mpirun -np 1 $spkexe -in $spkscr -log $logfile -screen none -var seed $seed -var xhi $xhi -var yhi $yhi -var sitefile $sitefile -var rd2 $rd2 -var ra2 $ra2 -var Nstep $Nstep -var deltat $deltat &
+        mpirun -np 1 $spkexe -in $spkscr -log $logfile -var seed $seed -var raA1 $raA1 -var rdA1 $rdA1 -var raB1 $raB1 -var rdB1 $rdB1 -var raX2 $raX2 -var rdX2 $rdX2 -var raY2 $raY2 -var rdY2 $rdY2 -var xhi $xhi -var yhi $yhi -var sitefile $sitefile -var Nstep $Nstep -var deltat $deltat &
     done
     wait
 done
@@ -66,8 +63,14 @@ echo "  \"sitefile\": \"$sitefile\"," >> $logdir/variables.txt
 echo "  \"logdir\": \"$logdir\"," >> $logdir/variables.txt
 echo "  \"xhi\": $xhi," >> $logdir/variables.txt
 echo "  \"yhi\": $yhi," >> $logdir/variables.txt
-echo "  \"rd2\": $rd2," >> $logdir/variables.txt
-echo "  \"ra2\": $ra2," >> $logdir/variables.txt
+echo "  \"raA1\": $raA1," >> $logdir/variables.txt
+echo "  \"rdA1\": $rdA1," >> $logdir/variables.txt
+echo "  \"raB1\": $raA1," >> $logdir/variables.txt
+echo "  \"rdB1\": $rdA1," >> $logdir/variables.txt
+echo "  \"raX2\": $raA1," >> $logdir/variables.txt
+echo "  \"rdX2\": $rdA1," >> $logdir/variables.txt
+echo "  \"raY2\": $raA1," >> $logdir/variables.txt
+echo "  \"rdY2\": $rdA1," >> $logdir/variables.txt
 echo "  \"Nruns\": $Nruns," >> $logdir/variables.txt
 echo "  \"Nstep\": $Nstep," >> $logdir/variables.txt
 echo "  \"deltat\": $deltat" >> $logdir/variables.txt
