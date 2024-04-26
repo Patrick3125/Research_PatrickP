@@ -1,18 +1,17 @@
 #!/bin/bash
 
 spkexe=./spk_nonmui
-outvid=diss_ads.gif
-spkscr=in.diss_ads_gif
+spkscr=in.diss_ads
 sitefile=site_data.2D_square
 logdir=../log
-seed=1
-xhi=5
-yhi=5
+
+xhi=${1:-5}
+yhi=${2:-5}
 rd2=2.5
 ra2=0.5
-Nruns=500
-Nstep=100
-deltat=0.01
+Nruns=200
+Nstep=500
+deltat=0.1
 
 # check spparks executable
 if [ ! -f $spkexe ]
@@ -35,9 +34,18 @@ fi
 python create_site_file.py $xhi $yhi $sitefile
 
 #runs the simulation in group of 16. 
+for (( i=0; i<$Nruns; i+=16 )) 
+do
+    imax=$(( $i + 16 < $Nruns ? $i + 16 : $Nruns ))
+
+    for seed in $(seq $((i+1)) $imax)
+    do
         logfile=$logdir/log${seed}.spparks
         echo "running $spkexe with seed = $seed"
-        mpirun -np 1 $spkexe -in $spkscr -log $logfile -var seed $seed -var xhi $xhi -var yhi $yhi -var sitefile $sitefile -var rd2 $rd2 -var ra2 $ra2 -var Nstep $Nstep -var deltat $deltat 
+        mpirun -np 1 $spkexe -in $spkscr -log $logfile -screen none -var seed $seed -var xhi $xhi -var yhi $yhi -var sitefile $sitefile -var rd2 $rd2 -var ra2 $ra2 -var Nstep $Nstep -var deltat $deltat &
+    done
+    wait
+done
 
 mv $sitefile $logdir
 cp $spkscr $logdir
@@ -56,9 +64,3 @@ echo "  \"Nruns\": $Nruns," >> $logdir/variables.txt
 echo "  \"Nstep\": $Nstep," >> $logdir/variables.txt
 echo "  \"deltat\": $deltat" >> $logdir/variables.txt
 echo "}" >> $logdir/variables.txt
-echo "** animated gif will be shown"
-
-ffmpeg -y -framerate 2 -i dump.%05d.jpg $outvid
-animate $outvid &
-
-

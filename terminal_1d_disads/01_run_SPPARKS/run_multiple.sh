@@ -5,12 +5,13 @@ spkscr=in.diss_ads
 sitefile=site_data.2D_square
 logdir=../log
 
-xhi=$1
+# Receievs xhi as input, otherwise, 5 on default
+xhi=${1:-5}
 yhi=1
 rd2=2.5
 ra2=0.5
-Nruns=500
-Nstep=4000
+Nruns=200
+Nstep=500
 deltat=0.1
 
 # check spparks executable

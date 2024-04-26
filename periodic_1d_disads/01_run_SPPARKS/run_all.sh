@@ -3,10 +3,10 @@
 rm -rf ../res
 rm -rf ../log
 
-for i in {3..20}; do
+for i in {3..10}; do
     size=$i
 
-    ./run_multiple_with_input.sh $size
+    ./run_multiple.sh $size
     ../02_parse_log/loop_SPPARKS_logs.sh
     python ../03_surface_coverage/compute_av_surface_coverage.py
 

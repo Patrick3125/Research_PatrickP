@@ -9,13 +9,9 @@ xhi = int(sys.argv[1])      # Number of cells in x-dir
 yhi = int(sys.argv[2])      # Number of cells in y-dir
 filename = sys.argv[3]      # Output filename
 
-# Define variables
-
 a1 = 0.5                     # Spacing in x-dir
 a2 = a1 / np.sqrt(3)         # Spacing in y-dir (height of a triangle)
 nsites = xhi * yhi * 2      # Total number of sites (2 per rectangle)
-
-# Open output file and write first part
 
 outfile = open(filename, "w")
 
@@ -24,21 +20,16 @@ outfile.write("{} sites\n".format(nsites))
 outfile.write("{} max neighbors\n".format(3))
 outfile.write("id site values\n\n")
 
-# Write second part (Sites)
-
 outfile.write("Sites\n\n")
 
 for j in range(0, yhi):
     for i in range(1, xhi + 1):
-        # Adjust the site positions for a triangular grid
         outfile.write("{} {} {} 0.0\n".format((i + j * xhi) * 2 - 1, a1 * (i - 1) * 2 + j * a1, a2 * j * 3))
         outfile.write("{} {} {} 0.0\n".format((i + j * xhi) * 2, a1 * (i - 0.5) * 2 + j * a1, a2 * j * 3 + a2))
 
 outfile.write("\n")
-# Write third part (Neighbors)
 outfile.write("Neighbors\n\n")
 
-# Adjusting the neighbor assignment logic
 for j in range(yhi):
     for i in range(1, xhi + 1):
         site1_id = (i + j * xhi) * 2 - 1  # lower left side of rhombus
@@ -61,10 +52,8 @@ for j in range(yhi):
         neighbors1 = list(set([n for n in neighbors1 if n is not None]))
         neighbors2 = list(set([n for n in neighbors2 if n is not None]))
 
-        # Write neighbors to file
         outfile.write("{} {}\n".format(site1_id, ' '.join(map(str, neighbors1))))
         outfile.write("{} {}\n".format(site2_id, ' '.join(map(str, neighbors2))))
-# Close file and print final message
 outfile.close()
 
 print("%s generated" % filename)

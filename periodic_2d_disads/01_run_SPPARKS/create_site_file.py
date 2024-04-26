@@ -15,16 +15,12 @@ a1 = 1.             # Spacing in x-dir for image output
 a2 = 1.             # Spacing in y-dir for image output
 nsites = xhi * yhi  # Total number of sites
 
-# open output file and write first part
-
 outfile = open(filename, "w")
 
 outfile.write("Site file written by {}\n\n".format(sys.argv[0]))
 outfile.write("{} sites\n".format(nsites))
 outfile.write("{} max neighbors\n".format(4))
 outfile.write("id site values\n\n")
-
-# write second part (Sites)
 
 outfile.write("Sites\n\n")
 
@@ -33,8 +29,6 @@ for j in range(0, yhi):
         outfile.write("{} {} {} 0.0\n".format(i + j * xhi, a1 * (i - 1), a2 * j))
 
 outfile.write("\n")
-
-# write third part (Neighbors)
 
 outfile.write("Neighbors\n\n")
 for j in range(0, yhi):
@@ -54,10 +48,6 @@ for j in range(0, yhi):
 
         # Write neighbors to file
         outfile.write("{} {}\n".format(site_id, ' '.join(map(str, neighbors))))
-
-
-
-# close file and print final message
 
 outfile.close()
 

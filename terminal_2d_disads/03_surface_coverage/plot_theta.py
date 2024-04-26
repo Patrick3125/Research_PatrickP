@@ -31,51 +31,52 @@ for folder in log_folders:
             y_vals.append(y)
         except ValueError:
             continue
-for x in x_vals:
-    for y in y_vals:
-        N = x * y
-        num_sites.append(N)
-        # Always bipartite
-        is_bipartite.append(True)
+for i in range(len(x_vals)):
+    x = x_vals[i]
+    y = y_vals[i]
+    N = x * y
+    num_sites.append(N)
+    # Always bipartite
+    is_bipartite.append(True)
 
-        # Use different analytical equation depending on oddity of x and y
-        if x %2 ==0 or y %2 ==0:
-            m_value = N / 2  
-            numerator_sum = Sum(binomial(m, j) * binomial(m-1,j) * k**j, (j, 0, m-1))
-            denominator_sum = Sum(binomial(m, j)**2 * k**j, (j, 0, m))
-            theta_analytical_expr =(numerator_sum / denominator_sum)
+    # Use different analytical equation depending on oddity of x and y
+    if x %2 ==0 or y %2 ==0:
+        m_value = N / 2  
+        numerator_sum = Sum(binomial(m, j) * binomial(m-1,j) * k**j, (j, 0, m-1))
+        denominator_sum = Sum(binomial(m, j)**2 * k**j, (j, 0, m))
+        theta_analytical_expr =(numerator_sum / denominator_sum)
 
-        elif x %2 ==1 and y %2 ==1:
-            m_value = (N - 1)  / 2  
-            numerator_sum = Sum(binomial(m+1, j+1) *binomial(m,j)* (m-j)* k**j, (j, 0, m-1))
-            denominator_sum = Sum(binomial(m+1, j+1)*binomial(m,j) * k**j, (j, 0, m))
-            theta_analytical_expr = 2 / (2*m+1)*(numerator_sum / denominator_sum)
-
-
-        # Get k value from json file
-        with open('../log_{}_{}'.format(x, y) + '/variables.txt') as f:
-            data = json.load(f)
-            ra2 = data['ra2']
-            rd2 = data['rd2']
-            k_value = rd2/ra2
-            theta = 1/(1+math.sqrt(k_value))
+    elif x %2 ==1 and y %2 ==1:
+        m_value = (N - 1)  / 2  
+        numerator_sum = Sum(binomial(m+1, j+1) *binomial(m,j)* (m-j)* k**j, (j, 0, m-1))
+        denominator_sum = Sum(binomial(m+1, j+1)*binomial(m,j) * k**j, (j, 0, m))
+        theta_analytical_expr = 2 / (2*m+1)*(numerator_sum / denominator_sum)
 
 
-        theta_analytical_simplified = theta_analytical_expr.subs({m: m_value, k: k_value})
-        theta_analytical_temp = theta_analytical_simplified.doit().evalf()
-        theta_analytical.append(theta_analytical_temp)
+    # Get k value from json file
+    with open('../log_{}_{}'.format(x, y) + '/variables.txt') as f:
+        data = json.load(f)
+        ra2 = data['ra2']
+        rd2 = data['rd2']
+        k_value = rd2/ra2
+        theta = 1/(1+math.sqrt(k_value))
 
-        # Compute the error bar and average from simulation data
-        with open('../res_{}_{}'.format(x, y) + '/average_surface_coverage.txt') as f:
-            f.readline()  # Skip the first row
-            theta_values = [float(line) for line in f]  # Assuming the second column is theta
 
-            theta_mean = sum(theta_values) / len(theta_values)
+    theta_analytical_simplified = theta_analytical_expr.subs({m: m_value, k: k_value})
+    theta_analytical_temp = theta_analytical_simplified.doit().evalf()
+    theta_analytical.append(theta_analytical_temp)
 
-            sample_variance = sum((x - theta_mean) ** 2 for x in theta_values) / (len(theta_values) - 1)
-            standard_error = ((sample_variance / len(theta_values)) ** 0.5)
-            theta_means.append(theta_mean)
-            theta_errors.append(standard_error)
+    # Compute the error bar and average from simulation data
+    with open('../res_{}_{}'.format(x, y) + '/average_surface_coverage.txt') as f:
+        f.readline()  # Skip the first row
+        theta_values = [float(line) for line in f]  # Assuming the second column is theta
+
+        theta_mean = sum(theta_values) / len(theta_values)
+
+        sample_variance = sum((x - theta_mean) ** 2 for x in theta_values) / (len(theta_values) - 1)
+        standard_error = ((sample_variance / len(theta_values)) ** 0.5)
+        theta_means.append(theta_mean)
+        theta_errors.append(standard_error)
  
 theta_errors_3sigma = [error * 3 for error in theta_errors]
 
@@ -156,7 +157,7 @@ plt.gca().xaxis.set_major_locator(MaxNLocator(6))
 plt.gca().yaxis.set_major_locator(MaxNLocator(6))
 
 plt.axhline(y=theta, color='black', linestyle=':')
-plt.text(x=110,
+plt.text(x=103,
          y=theta+0.003,
          s=r'$\overline{\theta}_\infty$',
          fontsize=12)

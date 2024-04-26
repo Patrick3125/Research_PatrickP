@@ -165,7 +165,7 @@ plt.gca().xaxis.set_major_locator(MaxNLocator(6))
 plt.gca().yaxis.set_major_locator(MaxNLocator(6))
 
 plt.axhline(y=theta, color='black', linestyle=':')
-plt.text(x=110,
+plt.text(x=103,
          y=theta+0.003,
          s=r'$\overline{\theta}_\infty$',
          fontsize=12)

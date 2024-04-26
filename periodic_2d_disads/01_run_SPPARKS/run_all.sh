@@ -4,12 +4,12 @@ rm -rf ../res
 rm -rf ../log
 
 
-for x in {3..10}; do
-    for y in {3..10}; do
+for x in {2..4}; do
+    for y in {2..5}; do
         size_x=$x
         size_y=$y
 
-        ./run_multiple_with_input.sh $size_x $size_y
+        ./run_multiple.sh $size_x $size_y
         ../02_parse_log/loop_SPPARKS_logs.sh
         python ../03_surface_coverage/compute_av_surface_coverage.py
 

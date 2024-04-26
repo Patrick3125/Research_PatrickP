@@ -16,15 +16,12 @@ a1 = 1.             # spacing in x-dir
 a2 = 2.             # spacing in y-dir
 nsites = xhi * yhi  # total number of sites
 
-# open output file and write first part
 outfile = open(filename, "w")
 
 outfile.write("Site file written by {}\n\n".format(sys.argv[0]))
 outfile.write("{} sites\n".format(nsites))
 outfile.write("{} max neighbors\n".format(2))
 outfile.write("id site values\n\n")
-
-# write second part (Sites)
 
 outfile.write("Sites\n\n")
 
@@ -33,8 +30,6 @@ for j in range(0, yhi):
         outfile.write("{} {} {} 0.0\n".format(i + j * xhi, a1 * (i - 1), a2 * j))
 
 outfile.write("\n")
-
-# write third part (Neighbors)
 
 outfile.write("Neighbors\n\n")
 
@@ -51,10 +46,6 @@ for j in range(0, yhi):
         # Write neighbors if they exist
         outfile.write("{} {}\n".format(site_id, ' '.join(map(str, neighbors))))
 
-
-# close file and print final message
-
 outfile.close()
 
 print("%s generated" % filename)
-

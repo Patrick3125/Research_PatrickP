@@ -148,7 +148,7 @@ plt.gca().xaxis.set_major_locator(MaxNLocator(6))
 plt.gca().yaxis.set_major_locator(MaxNLocator(6))
 
 plt.axhline(y=theta, color='black', linestyle=':')
-plt.text(x=110,
+plt.text(x=103,
          y=theta+0.003,
          s=r'$\overline{\theta}_\infty$',
          fontsize=12)
@@ -172,5 +172,3 @@ plt.tight_layout()
 plt.grid(True)
 plt.savefig('periodic_1d_even_odd.png', format='png', dpi=300)
 plt.show()
-
- 
