@@ -1,0 +1,29 @@
+# Triangular Dissociative Adsorption
+
+To run:
+1. copy the executable "spk_nonmui" to the current directory:
+   --> cd 01_run_SPPARKS
+   --> cp ~/GIT/FHDeX/exec/compressible_stag_mui/SPPARKS_MUI/spk_nonmui .
+2. execute the shell script:
+   --> ./run_single.sh
+   --> ../02_parse_log/loop_SPPARKS_logs.sh
+   --> python ../03_surface_coverage/compute_av_surface_coverage.py
+   --> python ../03_surface_coverage/plot_theta.py
+
+This project contains the following files:
+
+	README              	      this file
+
+  01_run_SPPARKS/
+    run_multiple.sh     	      run simulation multiple times
+    run_all_in_loop.sh            run all codes nessesary to plot the average coverage
+    create_site_file.py           creates sites data file "data.strips"
+    in.diss_ads                   spparks input script
+
+  02_parse_log/
+    loop_SPPARKS_logs.sh	      iterate though all SPPARKS log files and call parse_compute.py to parse them
+    parse_compute.py    	      parse one SPPARKS log file 
+
+  03_surface_coverage/
+    compute_av_surface_cov.py     computes and savesaverage surface coverage and theta
+    plot_theta.py                 plots the average coverage with error bars long with analytical results

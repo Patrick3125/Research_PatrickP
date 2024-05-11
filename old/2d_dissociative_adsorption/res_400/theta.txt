@@ -1,0 +1,2 @@
+# average_cov_all, theta
+0.308010 0.309017
