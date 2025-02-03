@@ -20,8 +20,8 @@ output_file = sys.argv[2]
 if comput_surfcov:
     output_file2 = sys.argv[3]
 
-# Read input variables from the log directory's JSON file
-with open(os.path.join(logdir, 'variables.txt')) as f:
+# Read sim params from the log directory's JSON file
+with open(os.path.join(logdir, 'sim_params.txt')) as f:
     var_data = json.load(f)
 
 total_sites = var_data["xhi"] * var_data["yhi"]

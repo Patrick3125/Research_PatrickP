@@ -9,7 +9,7 @@ xhi=1000
 yhi=1
 rd2=0.5
 ra2=0.5
-Nruns=32
+Nrun=32
 Nstep=5000
 deltat=0.05
 
@@ -34,9 +34,9 @@ fi
 python create_site_file.py $xhi $yhi $sitefile
 
 #runs the simulation in group of 16. 
-for (( i=0; i<$Nruns; i+=16 )) 
+for (( i=0; i<$Nrun; i+=16 ))
 do
-    imax=$(( $i + 16 < $Nruns ? $i + 16 : $Nruns ))
+    imax=$(( $i + 16 < $Nrun ? $i + 16 : $Nrun ))
 
     for seed in $(seq $((i+1)) $imax)
     do
@@ -50,17 +50,17 @@ done
 mv $sitefile $logdir
 cp $spkscr $logdir
 
-#save all the variables into log folder using json format
-echo "{" > $logdir/variables.txt
-echo "  \"spkexe\": \"$spkexe\"," >> $logdir/variables.txt
-echo "  \"spkscr\": \"$spkscr\"," >> $logdir/variables.txt
-echo "  \"sitefile\": \"$sitefile\"," >> $logdir/variables.txt
-echo "  \"logdir\": \"$logdir\"," >> $logdir/variables.txt
-echo "  \"xhi\": $xhi," >> $logdir/variables.txt
-echo "  \"yhi\": $yhi," >> $logdir/variables.txt
-echo "  \"rd2\": $rd2," >> $logdir/variables.txt
-echo "  \"ra2\": $ra2," >> $logdir/variables.txt
-echo "  \"Nruns\": $Nruns," >> $logdir/variables.txt
-echo "  \"Nstep\": $Nstep," >> $logdir/variables.txt
-echo "  \"deltat\": $deltat" >> $logdir/variables.txt
-echo "}" >> $logdir/variables.txt
+#save all sim params into log folder using json format
+echo "{" > $logdir/sim_params.txt
+echo "  \"spkexe\": \"$spkexe\"," >> $logdir/sim_params.txt
+echo "  \"spkscr\": \"$spkscr\"," >> $logdir/sim_params.txt
+echo "  \"sitefile\": \"$sitefile\"," >> $logdir/sim_params.txt
+echo "  \"logdir\": \"$logdir\"," >> $logdir/sim_params.txt
+echo "  \"xhi\": $xhi," >> $logdir/sim_params.txt
+echo "  \"yhi\": $yhi," >> $logdir/sim_params.txt
+echo "  \"rd2\": $rd2," >> $logdir/sim_params.txt
+echo "  \"ra2\": $ra2," >> $logdir/sim_params.txt
+echo "  \"Nrun\": $Nrun," >> $logdir/sim_params.txt
+echo "  \"Nstep\": $Nstep," >> $logdir/sim_params.txt
+echo "  \"deltat\": $deltat" >> $logdir/sim_params.txt
+echo "}" >> $logdir/sim_params.txt

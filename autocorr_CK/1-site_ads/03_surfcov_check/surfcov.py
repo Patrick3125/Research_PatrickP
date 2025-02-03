@@ -15,7 +15,7 @@ def theory_steady_state_surfcov_1site_ads(ra,rd,nsite):
 # changeable parameters #
 #########################
 
-logdir = "../log"           # directory of variables.txt (input)
+logdir = "../log"           # directory of sim_params.txt (input)
 resdir = "../res"           # directory of surfcov files (input) and output files
 
 outfile = "res.surfcov_avg" # output filename for main results (time vs. average surfcov)
@@ -36,10 +36,10 @@ ind_lw = 0.5                # line width
 ###################
 
 # read simulation parameters from the JSON file
-with open(os.path.join(logdir,'variables.txt')) as f:
+with open(os.path.join(logdir,'sim_params.txt')) as f:
     var_data = json.load(f)
 
-Nrun = var_data["Nruns"]
+Nrun = var_data["Nrun"]
 Nstep = var_data["Nstep"]
 rd2 = var_data["rd2"]
 ra2 = var_data["ra2"]

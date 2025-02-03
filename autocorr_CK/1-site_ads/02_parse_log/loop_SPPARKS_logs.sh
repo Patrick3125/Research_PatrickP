@@ -11,16 +11,18 @@ else
     mkdir "$resdir"
 fi
 
-# Extract Nruns from variables.txt
-Nruns=$(grep '"Nruns"' $logdir/variables.txt | awk -F: '{print $2}' | tr -d ' ,')
+# Extract Nrun from sim_params.txt
+Nrun=$(grep '"Nrun"' $logdir/sim_params.txt | awk -F: '{print $2}' | tr -d ' ,')
+
+echo **$Nrun
 
 # Find log files
 log_files=($(find $logdir -name "log*.spparks"))
 
 echo "** a total of ${#log_files[@]} log files detected"
 
-if [ "$Nruns" -ne "${#log_files[@]}" ]; then
-    echo "Error: Number of log files detected (${#log_files[@]}) does not match Nruns ($Nruns) from variables.txt!"
+if [ "$Nrun" -ne "${#log_files[@]}" ]; then
+    echo "Error: Number of log files detected (${#log_files[@]}) does not match Nrun ($Nrun) from sim_params.txt!"
     exit 1
 fi
 
@@ -29,7 +31,7 @@ readarray -t log_files < <(find $logdir -name "log*.spparks" | sort -V)
 
 
 # Loop through the log files in order
-for (( i=1; i<=Nruns; i++ )); do
+for (( i=1; i<=Nrun; i++ )); do
     log_file="$logdir/log${i}.spparks"
     data_file="$resdir/data${i}.txt"
     surfcov_file="$resdir/surfcov${i}.txt"
