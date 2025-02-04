@@ -14,8 +14,6 @@ fi
 # Extract Nrun from sim_params.txt
 Nrun=$(grep '"Nrun"' $logdir/sim_params.txt | awk -F: '{print $2}' | tr -d ' ,')
 
-echo **$Nrun
-
 # Find log files
 log_files=($(find $logdir -name "log*.spparks"))
 

@@ -20,7 +20,7 @@ resdir = "../res"           # directory of surfcov files (input) and output file
 
 outfile = "res.surfcov_avg" # output filename for main results (time vs. average surfcov)
 
-skipfac = 0.5               # portion to be discarded when steady-state averages are computed 
+skipfac = 0.1               # portion to be discarded when steady-state averages are computed
 
 gen_plot = True             # whether a figure is generated     
 figfile = "surfcov.png"     # figure filename 
