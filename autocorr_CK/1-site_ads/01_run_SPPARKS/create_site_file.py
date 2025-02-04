@@ -12,7 +12,7 @@ filename = sys.argv[3]      # output filename
 # define variables
 
 a1 = 1.             # spacing in x-dir
-a2 = 2.             # spacing in y-dir
+a2 = 1.             # spacing in y-dir
 nsites = xhi * yhi  # total number of sites
 
 outfile = open(filename, "w")

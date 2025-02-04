@@ -41,15 +41,13 @@ with open(os.path.join(logdir,'sim_params.txt')) as f:
 
 Nrun = var_data["Nrun"]
 Nstep = var_data["Nstep"]
-rd2 = var_data["rd2"]
-ra2 = var_data["ra2"]
+ra = var_data["ra"]
+rd = var_data["rd"]
 xhi = var_data["xhi"] 
 yhi = var_data["yhi"]
 
 # compute needed variables
 nsite = xhi*yhi
-ra = 2*ra2
-rd = 2*rd2
 nskiptpt = int(skipfac*Nstep)
 
 ######################
@@ -87,8 +85,8 @@ for i, surfcov_file in enumerate(surfcov_files):
 #################################################
 
 mean_surfcov = np.mean(all_surfcov,axis=0)
-var_surfcov = np.var(all_surfcov, ddof=1, axis=0)
-stderr_surfcov = np.sqrt(var_surfcov/len(surfcov_files))
+var_surfcov = np.var(all_surfcov,ddof=1,axis=0)
+stderr_surfcov = np.sqrt(var_surfcov/Nrun)
 
 ####################
 # data file output #

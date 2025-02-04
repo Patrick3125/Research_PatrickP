@@ -6,7 +6,7 @@ boundary	p p p
 lattice		sq/4n 1
 
 variable    Lx equal ${xhi}
-variable    Ly equal 2*${yhi}
+variable    Ly equal ${yhi}
 
 region		sys_domain block 0 ${Lx} 0 ${Ly} -0.5 0.5
 create_box	sys_domain
@@ -24,10 +24,10 @@ set     i1 value 1
 set		i2 value 0
 
 # disassociative adsorption (because of symmetry, actual rate is doubled)
-event       1 siteA vac ${ra2} spec1
+event       1 siteA vac ${ra} spec1
 
 # associative desorption (because of symmetry, actual rate is doubled)
-event       1 siteA spec1 ${rd2} vac
+event       1 siteA spec1 ${rd} vac
 
 variable    Trun equal ${deltat} 
 variable    Tstat equal ${deltat} 

@@ -7,8 +7,8 @@ logdir=../log
 
 xhi=1000
 yhi=1
-rd2=0.5
-ra2=0.5
+ra=0.5
+rd=0.5
 Nrun=32
 Nstep=5000
 deltat=0.05
@@ -42,7 +42,7 @@ do
     do
         logfile=$logdir/log${seed}.spparks
         echo "running $spkexe with seed = $seed"
-        mpirun -np 1 $spkexe -in $spkscr -log $logfile -screen none -var seed $seed -var xhi $xhi -var yhi $yhi -var sitefile $sitefile -var rd2 $rd2 -var ra2 $ra2 -var Nstep $Nstep -var deltat $deltat &
+        mpirun -np 1 $spkexe -in $spkscr -log $logfile -screen none -var seed $seed -var xhi $xhi -var yhi $yhi -var sitefile $sitefile -var ra $ra -var rd $rd -var Nstep $Nstep -var deltat $deltat &
     done
     wait
 done
@@ -58,8 +58,8 @@ echo "  \"sitefile\": \"$sitefile\"," >> $logdir/sim_params.txt
 echo "  \"logdir\": \"$logdir\"," >> $logdir/sim_params.txt
 echo "  \"xhi\": $xhi," >> $logdir/sim_params.txt
 echo "  \"yhi\": $yhi," >> $logdir/sim_params.txt
-echo "  \"rd2\": $rd2," >> $logdir/sim_params.txt
-echo "  \"ra2\": $ra2," >> $logdir/sim_params.txt
+echo "  \"ra\": $ra," >> $logdir/sim_params.txt
+echo "  \"rd\": $rd," >> $logdir/sim_params.txt
 echo "  \"Nrun\": $Nrun," >> $logdir/sim_params.txt
 echo "  \"Nstep\": $Nstep," >> $logdir/sim_params.txt
 echo "  \"deltat\": $deltat" >> $logdir/sim_params.txt
