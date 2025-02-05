@@ -20,7 +20,7 @@ resdir = "../res"           # directory of surfcov files (input) and output file
 
 outfile = "res.surfcov_avg" # output filename for main results (time vs. average surfcov)
 
-skipfac = 0.1               # portion to be discarded when steady-state averages are computed
+nskiptpt = 1000             # number of initial time points to be skipped when calculating steady-state stats
 
 gen_plot = True             # whether a figure is generated     
 figfile = "surfcov.png"     # figure filename 
@@ -48,7 +48,6 @@ yhi = var_data["yhi"]
 
 # compute needed variables
 nsite = xhi*yhi
-nskiptpt = int(skipfac*Nstep)
 
 ######################
 # read surfcov files #
@@ -93,7 +92,7 @@ stderr_surfcov = np.sqrt(var_surfcov/Nrun)
 ####################
 
 fullpath_outfile=os.path.join(resdir,outfile)
-np.savetxt(fullpath_outfile,np.column_stack([timepoints,mean_surfcov,stderr_surfcov]))
+np.savetxt(fullpath_outfile,np.column_stack([timepoints,mean_surfcov,stderr_surfcov]),header="time\tsurfcov\tstderr")
 print("\ndata file saved as %s" % fullpath_outfile)
 
 #######################################################################
@@ -117,7 +116,7 @@ mean2 = np.mean(var_surfcov_per_run)
 std2 = math.sqrt(np.var(var_surfcov_per_run,ddof=1)/Nrun)
 
 # screen output
-print("\nComparing theoretical and simulation results (skipfac=%f, Nrun=%d)" % (skipfac,Nrun))
+print("\nComparing theoretical and simulation results (nskiptpt=%f, Nrun=%d)" % (nskiptpt,Nrun))
 print("1. Mean steady-state surface coverage:")
 print("   Theory:     %e" % theo_mean_ss_surfcov)
 print("   Simulation: %e (std err=%e)" % (mean1,std1))
@@ -148,14 +147,14 @@ if gen_plot:
 
     # create an item in the legend if individual curves are drawn  
     if nindcurve==1:
-        plt.plot([], [],ind_color,alpha=ind_alpha,label='Individual Run',linewidth=ind_lw)
+        plt.plot([],[],ind_color,alpha=ind_alpha,label='Individual Run',linewidth=ind_lw)
     elif nindcurves>1:
-        plt.plot([], [],ind_color,alpha=ind_alpha,label='Individual Runs',linewidth=ind_lw)
+        plt.plot([],[],ind_color,alpha=ind_alpha,label='Individual Runs',linewidth=ind_lw)
 
     # customize the plot
-    plt.xlabel('Time', fontsize=12)
-    plt.ylabel('Surface Coverage', fontsize=12)
-    plt.grid(True, alpha=0.3)
+    plt.xlabel('Time',fontsize=12)
+    plt.ylabel('Surface Coverage',fontsize=12)
+    plt.grid(True,alpha=0.3)
     plt.legend(fontsize=10)
 
     # save and show the plot

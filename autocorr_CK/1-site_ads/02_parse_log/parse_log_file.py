@@ -12,7 +12,7 @@ elif len(sys.argv) == 4:
     comput_surfcov = True
 else:
     print("Usage: python parse_log_file.py <input_res_file> <output_file> [<output_file2>]")
-    sys.exit(1)
+    sys.exit(0)
 
 # Read input file path and output file path from arguments
 input_file = sys.argv[1]
@@ -21,17 +21,17 @@ if comput_surfcov:
     output_file2 = sys.argv[3]
 
 # Read sim params from the log directory's JSON file
-with open(os.path.join(logdir, 'sim_params.txt')) as f:
+with open(os.path.join(logdir,'sim_params.txt')) as f:
     var_data = json.load(f)
 
-total_sites = var_data["xhi"] * var_data["yhi"]
+total_sites = var_data["xhi"]*var_data["yhi"]
 
 x_values = []
 y_values = []
 if comput_surfcov:
     y2_values = []
 
-with open(input_file, "r") as f:
+with open(input_file,"r") as f:
     lines = f.readlines()
     
     previous_line_is_data = False
@@ -61,11 +61,11 @@ with open(input_file, "r") as f:
 
 # First output file
 # Stack the two lists as columns
-data = np.column_stack((x_values, y_values))
+data = np.column_stack((x_values,y_values))
 # Save the data to the output file in a two-column format
-np.savetxt(output_file, data, fmt='%f', header="time\tcovered_sites")
+np.savetxt(output_file,data,fmt='%f',header="time\tnumber of occupied sites")
 
 # Second output file
 if comput_surfcov:
-    surfcov = np.column_stack((x_values, y2_values))
-    np.savetxt(output_file2, surfcov, fmt='%e', header="time\tsurfcov")
+    surfcov = np.column_stack((x_values,y2_values))
+    np.savetxt(output_file2,surfcov,fmt='%e',header="time\tsurfcov")

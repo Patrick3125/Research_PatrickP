@@ -20,7 +20,7 @@ def compute_acf(x,max_lag):
         sys.exit(0)
 
     mean = np.mean(x)
-    deltax = x - mean
+    deltax = x-mean
 
     acf = np.zeros(max_lag+1)
     for tau in range(max_lag+1):
