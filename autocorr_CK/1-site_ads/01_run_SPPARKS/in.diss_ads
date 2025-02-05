@@ -23,10 +23,10 @@ temperature 300
 set     i1 value 1
 set		i2 value 0
 
-# disassociative adsorption (because of symmetry, actual rate is doubled)
+# 1-site adsorption
 event       1 siteA vac ${ra} spec1
 
-# associative desorption (because of symmetry, actual rate is doubled)
+# 2-site desorption
 event       1 siteA spec1 ${rd} vac
 
 variable    Trun equal ${deltat} 
