@@ -20,13 +20,13 @@ resdir = "../res"           # directory of surfcov files (input) and output file
 
 outfile = "res.surfcov_avg" # output filename for main results (time vs. average surfcov)
 
-nskiptpt = 1000             # number of initial time points to be skipped when calculating steady-state stats
+nskiptpt = 5000             # number of initial time points to be skipped when calculating steady-state stats
 
 gen_plot = True             # whether a figure is generated     
 figfile = "surfcov.png"     # figure filename 
 nerrbar  = 50
 
-nindcurve = 1               # how many individual run curves to be included (0 or pos int) 
+nindcurve = 0               # how many individual run curves to be included (0 or pos int)
 ind_color = 'lightblue'     # plot parameters for individual curves: line color
 ind_alpha = 1.0             # opacity
 ind_lw = 0.5                # line width
@@ -118,7 +118,7 @@ mean2 = np.mean(var_surfcov_per_run)
 std2 = math.sqrt(np.var(var_surfcov_per_run,ddof=1)/Nrun)
 
 # screen output
-print("\nComparing theoretical and simulation results (nskiptpt=%f, Nrun=%d)" % (nskiptpt,Nrun))
+print("\nComparing theoretical and simulation results (nskiptpt=%d, Nrun=%d)" % (nskiptpt,Nrun))
 print("1. Mean steady-state surface coverage:")
 print("   Theory:     %e" % theo_mean_ss_surfcov)
 print("   Simulation: %e (std err=%e)" % (mean1,std1))
@@ -150,7 +150,7 @@ if gen_plot:
     # create an item in the legend if individual curves are drawn  
     if nindcurve==1:
         plt.plot([],[],ind_color,alpha=ind_alpha,label='Individual Run',linewidth=ind_lw)
-    elif nindcurves>1:
+    elif nindcurve>1:
         plt.plot([],[],ind_color,alpha=ind_alpha,label='Individual Runs',linewidth=ind_lw)
 
     # customize the plot
