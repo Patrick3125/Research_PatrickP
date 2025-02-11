@@ -39,7 +39,7 @@ with open(input_file,"r") as f:
     for line in lines:
         # Use Regular expressions to find lines with only 7 numbers
         # Time    Naccept    Nreject    Nsweeps   CPU	vac	spec1
-        real_data = re.match(r"\s*([\d.]+)\s+(\d+)\s+(\d+)\s+(\d+)\s+([\deE.-]+)\s+(\d+)\s+(\d+)", line)
+        real_data = re.match(r"\s*([\d.]+)\s+(\d+)\s+(\d+)\s+(\d+)\s+([\deE.-]+)\s+(\d+)\s+(\d+)",line)
  
         # in case there are two consecutive lines with only 7 numbers, only store the later one. 
         if real_data:
