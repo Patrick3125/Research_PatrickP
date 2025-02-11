@@ -9,9 +9,9 @@ xhi=1000
 yhi=1
 ra2=0.5
 rd2=0.5
-Nrun=32
+Nrun=400
 Nstep=10000
-deltat=0.1
+deltat=0.01
 
 # check spparks executable
 if [ ! -f $spkexe ]

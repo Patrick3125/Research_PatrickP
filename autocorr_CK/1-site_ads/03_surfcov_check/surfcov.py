@@ -20,7 +20,7 @@ resdir = "../res"           # directory of surfcov files (input) and output file
 
 outfile = "res.surfcov_avg" # output filename for main results (time vs. average surfcov)
 
-nskiptpt = 1000             # number of initial time points to be skipped when calculating steady-state stats
+nskiptpt = 5000             # number of initial time points to be skipped when calculating steady-state stats
 
 gen_plot = True             # whether a figure is generated     
 figfile = "surfcov.png"     # figure filename 
@@ -116,7 +116,7 @@ mean2 = np.mean(var_surfcov_per_run)
 std2 = math.sqrt(np.var(var_surfcov_per_run,ddof=1)/Nrun)
 
 # screen output
-print("\nComparing theoretical and simulation results (nskiptpt=%f, Nrun=%d)" % (nskiptpt,Nrun))
+print("\nComparing theoretical and simulation results (nskiptpt=%d, Nrun=%d)" % (nskiptpt,Nrun))
 print("1. Mean steady-state surface coverage:")
 print("   Theory:     %e" % theo_mean_ss_surfcov)
 print("   Simulation: %e (std err=%e)" % (mean1,std1))

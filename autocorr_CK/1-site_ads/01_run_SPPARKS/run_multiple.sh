@@ -7,11 +7,11 @@ logdir=../log
 
 xhi=1000
 yhi=1
-ra=1.0
-rd=1.0
-Nrun=32
+ra=2.0
+rd=2.0
+Nrun=400
 Nstep=10000
-deltat=0.1
+deltat=0.01
 
 # check spparks executable
 if [ ! -f $spkexe ]

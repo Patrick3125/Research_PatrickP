@@ -37,7 +37,7 @@ resdir = "../res"           # directory of surfcov files (input) and output file
 
 outfile = "res.acf"         # output filename for main results (time vs. acf)
 max_lag = 100               # compute acf up to t = max_lag*dt
-nskiptpt = 1000             # discard this many initial timepoints when computing acf
+nskiptpt = 5000             # discard this many initial timepoints when computing acf
 
 ###################
 # before we start #
