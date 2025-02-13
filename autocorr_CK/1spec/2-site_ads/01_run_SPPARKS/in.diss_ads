@@ -24,10 +24,10 @@ set     i1 value 1
 set		i2 value 0
 
 # disassociative adsorption (note that half the rate should be used due to double counting)
-event       2 siteA siteA vac vac ${ra2} spec1 spec1
+event       2 siteA siteA vac vac ${rahalf} spec1 spec1
 
 # associative desorption (note that half the rate should be used due to double counting)
-event       2 siteA siteA spec1 spec1 ${rd2} vac vac
+event       2 siteA siteA spec1 spec1 ${rdhalf} vac vac
 
 variable    Trun equal ${deltat} 
 variable    Tstat equal ${deltat} 

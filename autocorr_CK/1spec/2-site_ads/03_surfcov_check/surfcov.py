@@ -41,15 +41,15 @@ with open(os.path.join(logdir,'sim_params.txt')) as f:
 
 Nrun = var_data["Nrun"]
 Nstep = var_data["Nstep"]
-ra2 = var_data["ra2"]
-rd2 = var_data["rd2"]
+rahalf = var_data["rahalf"]
+rdhalf = var_data["rdhalf"]
 xhi = var_data["xhi"] 
 yhi = var_data["yhi"]
 
 # compute needed variables
 nsite = xhi*yhi
-ra = 2*ra2
-rd = 2*rd2
+ra = 2*rahalf
+rd = 2*rdhalf
 
 ######################
 # read surfcov files #
