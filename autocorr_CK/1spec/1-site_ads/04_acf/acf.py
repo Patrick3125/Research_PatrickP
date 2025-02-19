@@ -12,7 +12,7 @@ def theory_acf_1site_ads(t,ra,rd,nsite):
 # acf computing routine #
 #########################
 
-def compute_acf(x,max_lag):
+def compute_acf_old(x,max_lag):
 
     Npt = len(x)
     if Npt<=max_lag:
@@ -30,6 +30,27 @@ def compute_acf(x,max_lag):
         acf[tau] = tmp/(Npt-tau)
 
     return acf
+
+def compute_acf(x,max_lag):
+
+    Npt = len(x)
+    if Npt<=max_lag:
+        print("Error: max_lag is too big")
+        sys.exit(0)
+
+    mean = np.mean(x)
+    deltax = x-mean
+
+    acf = np.zeros(max_lag+1)
+    for tau in range(max_lag+1):
+        tmp = 0.0
+        deltax1 = deltax[:Npt-tau]
+        deltax2 = deltax[tau:Npt]
+        tmp = np.dot(deltax1,deltax2)    
+        acf[tau] = tmp/(Npt-tau)
+
+    return acf
+
 
 #########################
 # changeable parameters #
