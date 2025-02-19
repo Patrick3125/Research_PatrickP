@@ -12,7 +12,7 @@ k2=0.3 # A B -> B B
 k3=0.1 # B -> O
 Nstep=1000
 Nruns=1
-deltat=1
+deltat=0.1
 
 # check spparks executable
 if [ ! -f $spkexe ]
