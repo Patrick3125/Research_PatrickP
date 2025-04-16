@@ -86,7 +86,7 @@ logdir = "../log"           # directory of sim_params.txt (input)
 resdir = "../res"           # directory of surfcov files (input) and output files
 
 outfile = "res.acf"         # output filename for main results (time vs. acf)
-max_lag = 100               # compute acf up to t = max_lag*dt
+max_lag = 300               # compute acf up to t = max_lag*dt
 nskiptpt = 5000             # discard this many initial timepoints when computing acf
 
 ###################
@@ -146,7 +146,7 @@ for i, surfcov_file in enumerate(surfcov_files):
     all_ccf_1_1[i] = compute_ccf(surfcov1, surfcov1, max_lag) # ACF of surfcov1
     all_ccf_2_1[i] = compute_ccf(surfcov2, surfcov1, max_lag) # CCF of surfcov2 and surfcov1
     all_ccf_1_2[i] = compute_ccf(surfcov1, surfcov2, max_lag) # CCF of surfcov1 and surfcov2
-    all_ccf_2_2[i] = compute_ccf(surfcov2, surfcov2, max_lag)  # ACF of surfcov2
+    all_ccf_2_2[i] = compute_ccf(surfcov2, surfcov2, max_lag) # ACF of surfcov2
 
 #############################################
 # computee the average acf and standard err #
